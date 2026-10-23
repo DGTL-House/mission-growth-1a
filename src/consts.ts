@@ -41,6 +41,6 @@ export const SOCIALS = [
 export const HERO_MOBILE = {
   src: "/img/hero-m-600.webp",
   srcset:
-    "/img/hero-m-400.webp 400w, /img/hero-m-600.webp 600w, /img/hero-m-800.webp 800w",
+    "/img/hero-m-400.webp 400w, /img/hero-m-600.webp 600w, /img/hero-m-700.webp 700w, /img/hero-m-800.webp 800w",
   sizes: "calc(100vw - 40px)",
 } as const;
