@@ -2,30 +2,33 @@
 import { NAV } from "../consts";
 import Icon from "./Icon.astro";
 
-// Floating bottom bar from the Figma mobile frame: quick section pills plus
-// back-to-top. Mobile/tablet only; slides in once the hero is scrolled past.
-const pills = [...NAV, { label: "Contact us", href: "#contact" }];
+// Floating section pills (Figma): a bottom bar with back-to-top on mobile and
+// tablet, a compact centred pill row on desktop. Slides in once the hero is
+// scrolled past.
+const pills = [...NAV, { label: "Contact us", short: "Contact Us", href: "#contact" }];
 ---
 
 <nav
-  class="fixed inset-x-0 bottom-0 z-30 translate-y-full rounded-t-[24px] bg-cream/95 shadow-[0_-8px_24px_-12px_rgba(22,21,20,0.18)] backdrop-blur transition-transform duration-300 data-[shown]:translate-y-0 lg:hidden"
+  class="fixed inset-x-0 bottom-0 z-30 translate-y-full rounded-t-[24px] bg-cream/95 shadow-[0_-8px_24px_-12px_rgba(22,21,20,0.18)] backdrop-blur transition-transform duration-300 data-[shown]:translate-y-0 lg:inset-x-auto lg:bottom-6 lg:left-1/2 lg:-translate-x-1/2 lg:translate-y-[200%] lg:rounded-full lg:p-1.5 lg:data-[shown]:translate-y-0"
   aria-label="Sections"
   data-mobile-nav
 >
-  <div class="flex items-center gap-2 py-4 pl-5 pr-4 pb-[max(16px,env(safe-area-inset-bottom))]">
+  <div
+    class="flex items-center gap-2 py-4 pb-[max(16px,env(safe-area-inset-bottom))] pl-5 pr-4 lg:p-0"
+  >
     <ul
-      class="flex flex-1 gap-2 overflow-x-auto [mask-image:linear-gradient(to_right,#000_85%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="flex flex-1 gap-2 overflow-x-auto [mask-image:linear-gradient(to_right,#000_85%,transparent)] [scrollbar-width:none] lg:gap-1.5 lg:overflow-visible lg:[mask-image:none] [&::-webkit-scrollbar]:hidden"
     >
       {
         pills.map((p) => (
           <li class="shrink-0">
             <a
               href={p.href}
-              class="btn btn-primary h-11 px-[18px] text-[15px]"
+              class="btn btn-primary h-11 px-[18px] text-[15px] lg:h-8 lg:px-3.5 lg:text-[13px]"
               tabindex="-1"
               data-mobile-nav-link
             >
-              {p.label}
+              {p.short}
             </a>
           </li>
         ))
@@ -33,7 +36,7 @@ const pills = [...NAV, { label: "Contact us", href: "#contact" }];
     </ul>
     <a
       href="#top"
-      class="btn btn-primary size-11 shrink-0 p-0"
+      class="btn btn-primary size-11 shrink-0 p-0 lg:hidden"
       aria-label="Back to top"
       tabindex="-1"
       data-mobile-nav-link

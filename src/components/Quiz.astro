@@ -1,0 +1,305 @@
+---
+import { BOOK_CALL, CONTACT, IRS_501C3_URL } from "../consts";
+import { QUESTIONS } from "../scripts/quiz";
+import Icon from "./Icon.astro";
+
+const perks = [
+  "Answers stay private and are not shared",
+  "Booking a call stays optional at every step",
+  "No obligation",
+];
+const onCall = [
+  "Confirm your eligibility for Google Ad Grants",
+  "Review your website and current setup",
+  "Explain what needs to be done before applying",
+  "Show you how we can manage the entire process for you",
+];
+const total = QUESTIONS.length;
+---
+
+<section id="quiz" class="section" aria-labelledby="quiz-title">
+  <div
+    class="container-page grid items-center gap-6 lg:grid-cols-[1fr_minmax(0,636px)] lg:gap-10"
+  >
+    <div class="text-center lg:text-left">
+      <p class="eyebrow">Get started today</p>
+      <h2
+        id="quiz-title"
+        class="mx-auto mt-5 max-w-[480px] text-[28px] font-medium leading-[1.09] tracking-[-0.01em] text-ink lg:mx-0 xl:mt-6 xl:text-[44px]"
+      >
+        Before we book, tell us about you
+      </h2>
+      <p class="mt-4 text-[16px] text-body xl:mt-6 xl:text-[18px]">
+        {total} questions · 60 seconds
+      </p>
+      <ul class="mx-auto mt-5 w-max max-w-full space-y-4 text-left lg:mx-0 xl:mt-6">
+        {
+          perks.map((p) => (
+            <li class="flex items-start gap-3 text-[16px] text-ink">
+              <Icon name="check-olive" size={16} class="mt-1 shrink-0" />
+              {p}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div
+      class="rounded-[24px] border border-[#ecebe6] bg-cream p-4 shadow-[0_40px_60px_-40px_rgba(22,21,20,0.22)] xl:rounded-[40px] xl:p-8"
+      data-quiz
+      aria-live="polite"
+    >
+      <!-- Questions — one screen each, auto-advance on pick. -->
+      <form data-quiz-questions>
+        <div class="flex items-center gap-4">
+          <button
+            type="button"
+            class="hidden text-[14px] text-body hover:text-ink"
+            aria-label="Previous question"
+            data-quiz-back
+          >
+            <Icon name="chevron-left" size={18} />
+          </button>
+          <div
+            class="h-1 flex-1 overflow-hidden rounded-full bg-white xl:mr-[100px]"
+            role="progressbar"
+            aria-valuemin="1"
+            aria-valuemax={total}
+            aria-valuenow="1"
+            data-quiz-progress
+          >
+            <div
+              class="h-full w-[14%] rounded-full bg-olive transition-[width] duration-300"
+              data-quiz-bar
+            >
+            </div>
+          </div>
+          <span class="text-[14px] font-medium text-ink" data-quiz-count
+            >1/{total}</span
+          >
+        </div>
+
+        {
+          QUESTIONS.map((q, i) => (
+            <fieldset class="quiz-step mt-6 xl:mt-7" hidden={i > 0} data-step={i}>
+              <legend class="text-[20px] font-medium leading-snug text-ink xl:text-[24px]">
+                {q.question}
+              </legend>
+              {q.note && <p class="mt-2 text-[14px] text-body">{q.note}</p>}
+              <div class="mt-6 space-y-2 xl:mt-[60px]">
+                {q.options.map(([label]) => (
+                  <label class="flex min-h-16 cursor-pointer items-center gap-3 rounded-[16px] border border-transparent bg-white px-[18px] py-3 text-[16px] text-ink transition-colors hover:border-lime has-[:checked]:border-lime-line">
+                    <input
+                      type="radio"
+                      name={q.id}
+                      value={label}
+                      class="size-[18px] shrink-0 appearance-none rounded-full border-[1.5px] border-[#8e8b83] checked:border-[5px] checked:border-olive"
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))
+        }
+      </form>
+
+      <!-- Eligible: booking hand-off. -->
+      <div hidden data-quiz-result="eligible">
+        <span
+          class="inline-flex h-9 items-center gap-2 rounded-full bg-olive px-3.5 text-[13px] font-medium text-white xl:text-[16px]"
+        >
+          <Icon name="check-circle-outline" size={18} class="text-lime" />
+          You look like a strong fit
+        </span>
+        <h3
+          class="mt-4 text-[24px] font-medium leading-[1.12] text-ink xl:text-[32px]"
+        >
+          Your nonprofit looks eligible for the Google Ad Grants
+        </h3>
+        <p class="mt-4 text-[15px] leading-normal text-body">
+          Based on your answers, your organization appears to meet the basic
+          requirements. The next step is a quick review with our team.
+        </p>
+        <p
+          class="mt-5 border-b border-[#e4e3de] pb-3 text-[16px] text-ink xl:mt-6"
+        >
+          On the call, we’ll
+        </p>
+        <ul class="mt-4 space-y-3">
+          {
+            onCall.map((item) => (
+              <li class="flex items-start gap-3 text-[16px] text-ink">
+                <Icon name="check-olive" size={16} class="mt-1 shrink-0" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href={BOOK_CALL}
+          class="btn btn-primary mt-6 h-14 w-full flex-col gap-0 leading-tight xl:h-[60px]"
+          data-quiz-book
+        >
+          <span class="flex items-center gap-2 text-[16px] sm:hidden"
+            >Schedule a Call <Icon name="arrow-right" size={16} /></span
+          >
+          <span class="hidden text-[18px] sm:block">Book free consultation</span>
+          <span class="hidden text-[12px] font-normal sm:block"
+            >No commitment · 30 min</span
+          >
+        </a>
+        <p
+          class="mx-auto mt-4 flex w-max max-w-full items-center gap-3 rounded-full bg-white px-4 py-2.5 text-[10px] leading-snug text-ink sm:text-[12px]"
+        >
+          <Icon name="warning" size={18} class="shrink-0" />
+          <span
+            >Please double-check the time zone before<br />booking, especially
+            if you’re using a VPN</span
+          >
+        </p>
+      </div>
+
+      <!-- Not eligible: reminder capture. -->
+      <div hidden data-quiz-result="not-eligible">
+        <span
+          class="inline-flex h-9 items-center gap-2 rounded-full bg-[#e5443c] px-3.5 text-[13px] font-medium text-white xl:text-[16px]"
+        >
+          <Icon name="x-white" size={18} />
+          Not eligible yet
+        </span>
+        <h3
+          class="mt-4 text-[24px] font-medium leading-[1.12] text-ink xl:text-[32px]"
+        >
+          Google requires 501(c)(3) status for this program
+        </h3>
+        <p class="mt-4 text-[15px] leading-normal text-body">
+          The Ad Grants program is open to organizations with valid 501(c)(3)
+          status in the United States. Until that’s in place, Google won’t
+          approve the account and no agency can change that.
+        </p>
+        <p
+          class="mt-5 border-b border-[#e4e3de] pb-3 text-[16px] text-ink xl:mt-6"
+        >
+          Want us to check back then?
+        </p>
+
+        <form class="mt-4" data-remind-form>
+          <label for="remind-email" class="text-[14px] font-semibold text-ink"
+            >Email</label
+          >
+          <div class="mt-2 flex flex-col gap-2 sm:flex-row">
+            <input
+              id="remind-email"
+              type="email"
+              required
+              autocomplete="email"
+              placeholder="Email"
+              class="h-12 min-w-0 flex-1 rounded-full border border-transparent bg-white px-5 text-[14px] text-ink outline-none placeholder:text-muted focus:border-lime-line"
+            />
+            <button
+              type="submit"
+              class="btn btn-primary h-12 px-6 text-[16px] xl:text-[18px]"
+            >
+              Remind me <Icon name="arrow-right" size={16} />
+            </button>
+          </div>
+        </form>
+        <p class="mt-3 hidden text-[15px] font-medium text-olive" data-remind-done>
+        </p>
+
+        <p class="mt-5 border-b border-[#e4e3de] pb-3 text-[16px] text-ink">
+          Think this is wrong, or already approved?
+        </p>
+        <a
+          href={CONTACT.phoneHref}
+          class="mt-4 inline-block text-[20px] font-medium text-ink hover:text-olive"
+          >{CONTACT.phone}</a
+        >
+        <p class="mt-4 text-[12px] text-body">
+          New to 501(c)(3)? See the <a
+            href={IRS_501C3_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline hover:text-ink">IRS application overview</a
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { BOOK_CALL } from "../consts";
+  import { appendBookingParams, QUESTIONS, STATUS_ELIGIBLE, STATUS_QUESTION_ID } from "../scripts/quiz";
+  import { appendUtmParams } from "../scripts/utm";
+
+  const ADVANCE_DELAY = 280;
+  const root = document.querySelector<HTMLElement>("[data-quiz]")!;
+  const form = root.querySelector<HTMLFormElement>("[data-quiz-questions]")!;
+  const steps = [...form.querySelectorAll<HTMLFieldSetElement>("[data-step]")];
+  const back = root.querySelector<HTMLButtonElement>("[data-quiz-back]")!;
+  const bar = root.querySelector<HTMLElement>("[data-quiz-bar]")!;
+  const progress = root.querySelector<HTMLElement>("[data-quiz-progress]")!;
+  const count = root.querySelector<HTMLElement>("[data-quiz-count]")!;
+  const answers: Record<string, string> = {};
+  let step = 0;
+  let timer = 0;
+
+  function show(i: number) {
+    step = i;
+    steps.forEach((s, n) => (s.hidden = n !== i));
+    // Endowed progress: the bar never starts empty.
+    bar.style.width = `${14 + (i / steps.length) * 86}%`;
+    progress.setAttribute("aria-valuenow", String(i + 1));
+    count.textContent = `${i + 1}/${steps.length}`;
+    back.classList.toggle("hidden", i === 0);
+  }
+
+  function finish() {
+    form.hidden = true;
+    const eligible = answers[STATUS_QUESTION_ID] === STATUS_ELIGIBLE;
+    const result = root.querySelector<HTMLElement>(
+      `[data-quiz-result="${eligible ? "eligible" : "not-eligible"}"]`,
+    )!;
+    result.hidden = false;
+    if (eligible) {
+      root.querySelector<HTMLAnchorElement>("[data-quiz-book]")!.href =
+        appendUtmParams(appendBookingParams(BOOK_CALL, answers));
+    }
+    root.scrollIntoView({ behavior: "smooth", block: "center" });
+    (window as any).dataLayer?.push({
+      event: "quiz_complete",
+      quiz_result: eligible ? "eligible" : "not_eligible",
+    });
+  }
+
+  // `click`, not `change`: after Back, re-picking the same answer must still
+  // advance, and an already-checked radio fires no change event.
+  form.addEventListener("click", (e) => {
+    const input = e.target as HTMLInputElement;
+    if (input.type !== "radio") return;
+    answers[input.name] = input.value;
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      if (step < QUESTIONS.length - 1) show(step + 1);
+      else finish();
+    }, ADVANCE_DELAY);
+  });
+  back.addEventListener("click", () => {
+    clearTimeout(timer);
+    show(Math.max(0, step - 1));
+  });
+
+  // Reminder capture — no endpoint yet, so it only confirms on screen.
+  const remind = root.querySelector<HTMLFormElement>("[data-remind-form]")!;
+  remind.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = remind.querySelector<HTMLInputElement>("input")!.value;
+    // TODO: send `email` + quiz answers to the CRM once the endpoint exists.
+    const done = root.querySelector<HTMLElement>("[data-remind-done]")!;
+    done.textContent = `✓ Got it — we'll send one reminder to ${email}.`;
+    done.classList.remove("hidden");
+    remind.hidden = true;
+  });
+</script>

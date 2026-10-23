@@ -1,0 +1,127 @@
+---
+import Icon from "./Icon.astro";
+
+// Answers from the nonprofit landing (quiz branch FAQ.jsx); the first one is
+// the Figma copy.
+const faqs = [
+  {
+    q: "What is the Google Ad Grant, and how does it work?",
+    a: "Google Ad Grants provide <strong>eligible nonprofits with $10,000/month in free Google Ads to increase visibility, attract donors, and drive website traffic</strong>—all at no cost. However, Google has strict compliance rules that must be followed to keep the grant active.",
+  },
+  {
+    q: "Is this really free advertising? What's the catch?",
+    a: 'Google Ad Grants is a real, legitimate program — Google gives up to $10,000/month in search ad budgets to eligible nonprofits at no cost. The "catch" is that managing it effectively requires expertise: specific compliance rules, proper campaign structure, ongoing optimization. Without professional management, most organizations either don\'t get approved or lose the grant within months.',
+  },
+  {
+    q: "Why do we need an agency if Google gives the grant for free?",
+    a: "The grant is free. Running it well isn't simple. Google requires a minimum 5% click-through rate, proper keyword structure, regular account activity, and conversion tracking — or they suspend your account. Most nonprofits don't have the in-house expertise to maintain compliance and drive real results. Think of it like this: a business bank account is free, but you still hire an accountant.",
+  },
+  {
+    q: "How fast can we get started?",
+    a: "Your first eligibility check happens within 24 hours of reaching out. Grant approval from Google typically takes 2–4 weeks. Most clients have live campaigns within 30 days of signing on.",
+  },
+  {
+    q: "Can this help us get more donations?",
+    a: "Google Ad Grants brings targeted traffic to your website from people actively searching for what you do. Whether that traffic converts into donations depends on your website, donation page, and cause. We optimize for the conversions that matter to you — donations, volunteer signups, program applications. We don't guarantee a specific number of donations, but we build the infrastructure that makes them possible.",
+  },
+  {
+    q: "What if we already have Google Ad Grants but it's not working?",
+    a: "This is exactly the situation we help with most often. We audit your existing account, identify what's underperforming or out of compliance, rebuild campaign structure, and optimize for real results. Many of our clients came to us after failed attempts on their own or with a general-purpose agency.",
+  },
+  {
+    q: "What if we don't get approved for the grant?",
+    a: "We have a near-100% approval rate for eligible nonprofits. If your organization qualifies and we don't get you approved, we'll continue working at no charge until you're in.",
+  },
+  {
+    q: "What do you need from our team?",
+    a: "Very little. We need access to your website, a brief onboarding call to understand your goals, and a point of contact for monthly check-ins. We handle everything else. Most clients spend less than 2 hours per month on this.",
+  },
+  {
+    q: "Do we own the ad account?",
+    a: "Yes, always. We work inside your Google account, not ours. You have admin access at all times. If you ever leave, you keep everything — all campaigns, data, and history.",
+  },
+  {
+    q: "Can we cancel anytime?",
+    a: "Yes. No long-term contracts. Cancel with 30 days' notice, no penalties.",
+  },
+  {
+    q: "We don't have a website. Can you still help?",
+    a: "Yes — and this is more common than you'd think. Google Ad Grants requires a quality website that meets their guidelines. If you don't have one, we'll build it as part of your onboarding: clean, fast, and optimized to convert ad traffic into donor sign-ups, volunteer registrations, and program inquiries.",
+  },
+  {
+    q: "Why should we act now and not wait a few months?",
+    a: "Every month without the grant is $10,000 in free advertising that disappears forever — it doesn't accumulate or carry over. If your board needs to approve it, we're happy to provide materials that make that conversation easier. But the math is simple: waiting 3 months to start costs you $30,000 in potential reach.",
+  },
+  {
+    q: "We found another agency cheaper. Why should we choose you?",
+    a: "If you've found a legitimate registered agency (not a freelancer) offering the same full scope of Google Ad Grants management for a lower monthly fee — show us the quote. We'll match or beat it. The difference is that we specialize exclusively in Google Ad Grants for nonprofits.",
+  },
+  {
+    q: "We've had a bad experience with a previous agency. Why should we trust you?",
+    a: "We understand — and we hear this often. Here's what's different: we specialize exclusively in Google Ad Grants for nonprofits, we provide our client references directly (you can contact them), our first month is free so you can see results before you commit, and you own everything — so there's zero lock-in risk.",
+  },
+];
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.a.replace(/<[^>]+>/g, ""),
+    },
+  })),
+};
+---
+
+<section id="faq" class="section" aria-labelledby="faq-title">
+  <div class="container-page">
+    <div class="text-center">
+      <p class="eyebrow reveal lg:hidden">Frequently asked questions</p>
+      <h2 id="faq-title" class="h2 reveal mt-5 lg:mt-0">
+        Got questions? We’ve got answers
+      </h2>
+      <p
+        class="reveal mt-3 hidden text-[24px] font-light text-body lg:block"
+      >
+        Frequently asked questions
+      </p>
+    </div>
+
+    <div class="mx-auto mt-8 max-w-[972px] space-y-3 xl:mt-14 xl:space-y-4">
+      {
+        faqs.map((f, i) => (
+          <details
+            class="group rounded-[20px] border border-[#dcdbd6] bg-white xl:rounded-[40px]"
+            open={i === 0}
+            name="faq"
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 [&::-webkit-details-marker]:hidden xl:px-8 xl:py-[23px]">
+              <span class="text-[15px] font-medium leading-snug text-black xl:text-[20px]">
+                {f.q}
+              </span>
+              <span class="grid size-[42px] shrink-0 place-items-center rounded-[12px] bg-sand text-body transition-transform">
+                <Icon
+                  name="chevron-up"
+                  size={16}
+                  class="rotate-180 transition-transform group-open:rotate-0"
+                />
+              </span>
+            </summary>
+            <p
+              class="-mt-2 px-4 pb-5 pr-6 text-[13px] leading-normal text-black xl:-mt-3 xl:max-w-[800px] xl:px-8 xl:pb-5 xl:text-[16px] [&_strong]:font-semibold"
+              set:html={f.a}
+            />
+          </details>
+        ))
+      }
+    </div>
+  </div>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqLd)}
+  />
+</section>

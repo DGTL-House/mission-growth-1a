@@ -53,7 +53,7 @@ const cells = reviews.flatMap((r, i) => [
 ]);
 ---
 
-<section class="section" aria-labelledby="proof-title">
+<section id="results" class="section pb-6 xl:pb-14" aria-labelledby="proof-title">
   <div class="container-page">
     <div class="relative text-center">
       <p class="eyebrow reveal">The proof</p>
@@ -88,8 +88,8 @@ const cells = reviews.flatMap((r, i) => [
       {
         cells.map((cell) =>
           cell.kind === "review" ? (
-            <li data-review-card class="flex w-[280px] shrink-0 snap-start flex-col rounded-[24px] border border-[#e4e3df] bg-white p-5 md:w-auto xl:rounded-[40px] xl:p-[31px] xl:pr-[39px]">
-              <div class="flex items-start gap-3 xl:max-w-[300px] xl:gap-[12px]">
+            <li data-review-card class="flex w-[280px] shrink-0 snap-start flex-col rounded-[24px] border border-[#e4e3df] bg-white p-5 md:w-auto xl:rounded-[40px] xl:p-[31px] xl:pb-7 xl:pr-[39px]">
+              <div class="flex items-start gap-3 xl:max-w-[330px] xl:gap-[12px]">
                 <img
                   src={`/img/${cell.review.photo}.webp`}
                   alt=""
@@ -108,7 +108,7 @@ const cells = reviews.flatMap((r, i) => [
                   </p>
                 </div>
               </div>
-              <div class="mt-4 flex items-center justify-between xl:mt-[22px]">
+              <div class="mt-4 flex items-center justify-between xl:mt-4">
                 <span
                   class="flex gap-0.5 text-star"
                   aria-label={`Rated ${cell.review.rating} out of 5`}
@@ -121,10 +121,10 @@ const cells = reviews.flatMap((r, i) => [
                   {cell.review.rating}
                 </span>
               </div>
-              <blockquote class="mt-5 text-[16px] leading-[1.45] text-ink xl:max-w-[295px] xl:text-[18px] xl:leading-[1.5]">
+              <blockquote class="mt-5 text-[16px] leading-[1.45] text-ink xl:mt-3 xl:max-w-[305px] xl:text-[18px] xl:leading-[1.5]">
                 “{cell.review.quote}”
               </blockquote>
-              <p class="mt-auto flex items-center gap-1.5 pt-6 text-[12px] text-ink">
+              <p class="mt-auto flex items-center gap-1.5 pt-6 text-[12px] text-ink xl:pt-3">
                 <Icon name="verified" size={15} class="text-ink" />
                 Verified Review
               </p>

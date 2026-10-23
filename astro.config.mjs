@@ -17,6 +17,8 @@ export default defineConfig({
   site,
   integrations: [
     sitemap({
+      // The booking confirmation page is noindex and not for search.
+      filter: (page) => !page.includes("/thank-you"),
       serialize(item) {
         item.lastmod = new Date().toISOString();
         return item;

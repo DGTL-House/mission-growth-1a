@@ -1,0 +1,134 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Icon from "../components/Icon.astro";
+import { QUALIFY_HREF } from "../consts";
+
+// Booking-widget redirect target. The widget can pass the appointment start
+// as a query param; without one the date chip is simply left out.
+const next = [
+  { icon: "mail", text: "The call link is in your inbox" },
+  {
+    icon: "phone",
+    text: "We may be in touch before the call by email or phone, only if something is worth checking in advance.",
+  },
+  {
+    icon: "file-text",
+    text: "After the call you get a written audit of your account. Yours to keep, whether or not we work together.",
+  },
+] as const;
+---
+
+<Layout title="Your meeting is confirmed | DGTL House" noindex>
+  <span id="top" aria-hidden="true"></span>
+  <Header base="/">
+    <a
+      slot="cta"
+      href={`/${QUALIFY_HREF}`}
+      class="btn btn-primary h-12 px-5 text-[16px]">Book free call</a
+    >
+  </Header>
+
+  <main id="main-content" class="pt-2 xl:pt-[67px]">
+    <div class="container-page">
+      <div
+        class="card-cream rounded-[24px] px-2 pb-5 pt-2 md:px-10 md:pt-10 xl:rounded-[48px] xl:pb-[60px] xl:pt-[56px]"
+      >
+        <article
+          class="mx-auto max-w-[760px] overflow-hidden rounded-[20px] bg-white shadow-[0_30px_60px_-30px_rgba(22,21,20,0.25)] xl:rounded-[40px]"
+        >
+          <header class="bg-forest px-4 pb-6 pt-7 text-center text-white xl:px-12 xl:pb-[40px] xl:pt-14">
+            <span
+              class="mx-auto grid size-14 place-items-center rounded-full bg-lime text-forest xl:size-16"
+            >
+              <Icon name="check" size={28} />
+            </span>
+            <h1
+              class="mt-5 text-[30px] font-medium leading-[1.1] tracking-[-0.01em] xl:mt-8 xl:text-[48px]"
+            >
+              Your meeting is confirmed
+            </h1>
+            <p
+              class="mx-auto mt-4 max-w-[560px] text-[15px] font-light leading-normal text-white/80 xl:text-[18px]"
+            >
+              Thank you for booking with .dgtl-house. We are looking forward to
+              hearing about your nonprofit and where you want it to go next.
+            </p>
+            <ul
+              class="mx-auto mt-6 grid max-w-max grid-cols-2 gap-2 text-[15px] font-medium sm:flex sm:items-center sm:gap-0 sm:rounded-[12px] sm:bg-white/10 sm:px-2 xl:mt-7 xl:text-[16px]"
+            >
+              <li
+                class="col-span-2 flex items-center justify-center gap-2 rounded-[10px] bg-white/10 px-4 py-3 sm:bg-transparent sm:py-2.5"
+                hidden
+                data-when
+              >
+                <Icon name="calendar" size={16} class="text-lime" />
+                <span data-when-text></span>
+              </li>
+              <li
+                class="flex items-center justify-center gap-2 rounded-[10px] bg-white/10 px-4 py-3 sm:bg-transparent sm:py-2.5"
+              >
+                <Icon name="clock-solid" size={16} class="text-lime" />
+                30 min
+              </li>
+              <li
+                class="flex items-center justify-center gap-2 rounded-[10px] bg-white/10 px-4 py-3 sm:bg-transparent sm:py-2.5"
+              >
+                <Icon name="video" size={16} class="text-lime" />
+                Online
+              </li>
+            </ul>
+          </header>
+
+          <div class="px-4 pb-6 pt-6 xl:px-12 xl:pb-12 xl:pt-9">
+            <h2 class="text-[16px] font-semibold text-ink xl:text-[18px]">
+              What happens next
+            </h2>
+            <ul class="mt-5 space-y-4">
+              {
+                next.map((n) => (
+                  <li class="flex items-start gap-4 text-[15px] leading-normal text-ink/85 xl:text-[16px]">
+                    <span class="grid size-10 shrink-0 place-items-center rounded-[10px] border border-[#cde2a8] bg-lime-soft text-olive">
+                      <Icon name={n.icon} size={18} />
+                    </span>
+                    <span class="pt-2">{n.text}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </article>
+
+        <p
+          class="mt-5 flex items-center justify-center gap-2 text-[13px] text-ink xl:mt-7 xl:text-[14px]"
+        >
+          <Icon name="warning" size={18} />
+          No email? Check spam and Promotions
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <Footer variant="thanks" base="/" />
+</Layout>
+
+<script>
+  // Accepts an ISO start (`start`, `startTime`, `appointment_start`, `date`)
+  // and renders it in the visitor's own time zone, e.g. "Wed 22 Oct, 11:00 am".
+  const params = new URLSearchParams(location.search);
+  const raw = ["start", "startTime", "appointment_start", "date"]
+    .map((k) => params.get(k))
+    .find(Boolean);
+  const when = raw ? new Date(raw) : null;
+  if (when && !Number.isNaN(when.getTime())) {
+    const day = when.toLocaleDateString("en-US", { weekday: "short" });
+    const date = when.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+    const time = when
+      .toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })
+      .toLowerCase();
+    const li = document.querySelector<HTMLElement>("[data-when]")!;
+    li.querySelector("[data-when-text]")!.textContent = `${day} ${date}, ${time}`;
+    li.hidden = false;
+  }
+</script>

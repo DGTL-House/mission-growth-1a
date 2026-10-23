@@ -5,12 +5,14 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
 }
 
 const {
-  title = "Your Nonprofit Has $10,000/Month in Free Google Ads | DGTL House",
-  description = "Free 30-min Google Ad Grant review for US nonprofits: see what's holding your $10,000/month grant back and how to reach more people who care about your mission.",
+  title = "Get $10,000/Month in Free Google Ads for Your Nonprofit | DGTL House",
+  description = "Turn the Google Ad Grant into 20,000+ potential website visitors a year. Check in 60 seconds if your nonprofit qualifies for $10,000/month in free Google Search ads.",
   image = "/og-image.webp",
+  noindex = false,
 } = Astro.props;
 
 // `site` comes from SITE_URL (see astro.config.mjs).
@@ -63,7 +65,9 @@ const siteLd = {
     <meta name="author" content="DGTL House" />
     <meta
       name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1"
+      content={noindex
+        ? "noindex, follow"
+        : "index, follow, max-image-preview:large, max-snippet:-1"}
     />
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonical} />

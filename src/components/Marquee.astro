@@ -1,0 +1,25 @@
+---
+// Organisation pills under the reviews — decorative marquee, duplicated for a
+// seamless loop.
+const orgs = [
+  "Green Earth Fund",
+  "Shelter First",
+  "Veterans United",
+  "Animal Rescue Alliance",
+  "City Food Bank",
+  "Mental Health Matters",
+  "Education Unlocked",
+];
+---
+
+<div class="marquee overflow-hidden pb-8 xl:pb-20" aria-hidden="true">
+  <ul class="marquee-track flex w-max gap-2.5">
+    {
+      [...orgs, ...orgs].map((org) => (
+        <li class="flex h-12 items-center whitespace-nowrap rounded-[12px] border border-[#e4e3df] px-5 text-[16px] font-medium text-ink xl:h-[50px] xl:text-[18px]">
+          {org}
+        </li>
+      ))
+    }
+  </ul>
+</div>
