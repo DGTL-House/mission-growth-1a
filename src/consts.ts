@@ -27,12 +27,22 @@ export const NAV = [
   { label: "FAQ", short: "FAQ", href: "#faq" },
 ] as const;
 
-// TODO: real profile URLs — neither the layout nor the sibling projects have
-// them yet, so the icons point nowhere for now.
 export const SOCIALS = [
-  { label: "Instagram", href: "#", icon: "instagram" },
-  { label: "Facebook", href: "#", icon: "facebook" },
-  { label: "LinkedIn", href: "#", icon: "linkedin" },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/dgtl.house",
+    icon: "instagram",
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/@dgtlhouse",
+    icon: "facebook",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/dgtl-house/about",
+    icon: "linkedin",
+  },
 ] as const;
 
 // Mobile (<768px) hero image. Hero.astro and the <head> preload in

@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { HERO_MOBILE } from "../consts";
+import { HERO_MOBILE, SOCIALS } from "../consts";
 
 interface Props {
   title?: string;
@@ -46,6 +46,7 @@ const orgLd = {
     addressCountry: "US",
   },
   areaServed: "US",
+  sameAs: SOCIALS.map((s) => s.href),
   knowsAbout: ["Google Ad Grants", "Nonprofit Marketing", "Google Ads"],
 };
 
@@ -142,9 +143,9 @@ const siteLd = {
       crossorigin
     />
 
-    <!-- GTM + GA4 — same IDs as the `nonprofit` project, with its deferred
-         loader. The stubs queue events from the first paint; the libraries
-         themselves load on the first real interaction, or ~3.5s after `load`,
+    <!-- Third-party tags (GTM, GA4, Meta Pixel, Contentsquare) — same IDs as
+         the `nonprofit` project, with its deferred loader. The stubs queue
+         events from the first paint; the libraries themselves load on the first real interaction, or ~3.5s after `load`,
          so they stay out of the LCP window. -->
     <script is:inline>
       (function () {
@@ -162,6 +163,8 @@ const siteLd = {
           [
             "https://www.googletagmanager.com/gtm.js?id=GTM-P72X9ZR4",
             "https://www.googletagmanager.com/gtag/js?id=G-T660MYBD46",
+            "https://connect.facebook.net/en_US/fbevents.js",
+            "https://t.contentsquare.net/uxa/fc16179df91a5.js",
           ].forEach(function (src) {
             var s = document.createElement("script");
             s.async = true;
@@ -198,18 +201,25 @@ const siteLd = {
       })();
     </script>
 
-    <!-- Meta Pixel — same ID as nonprofit-next -->
+    <!-- Meta Pixel (same ID as nonprofit-next) — standard queue stub only.
+         fbevents.js itself is fetched by the deferred tag loader above, and
+         replays this queue (init + PageView) once it arrives. -->
     <script is:inline>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '814203840958106');
-      fbq('track', 'PageView');
+      !(function (f) {
+        if (f.fbq) return;
+        var n = (f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        });
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+      })(window);
+      fbq("init", "814203840958106");
+      fbq("track", "PageView");
     </script>
     <noscript
       ><img
@@ -219,12 +229,8 @@ const siteLd = {
         src="https://www.facebook.com/tr?id=814203840958106&ev=PageView&noscript=1"
       /></noscript
     >
-
-    <!-- Contentsquare — same tag as nonprofit-next -->
-    <script
-      is:inline
-      defer
-      src="https://t.contentsquare.net/uxa/fc16179df91a5.js"></script>
+    <!-- Contentsquare (same tag as nonprofit-next) — loaded by the deferred
+         tag loader above. -->
   </head>
   <body class="min-h-screen">
     <!-- Google Tag Manager (noscript) -->
