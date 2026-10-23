@@ -3,7 +3,7 @@ import { NAV } from "../consts";
 import Icon from "./Icon.astro";
 
 // Bottom section bar from the Figma mobile frame: a solid cream bar pinned to
-// the viewport bottom from the first screen, with horizontally scrolling nav
+// the viewport bottom once the hero is scrolled past, with horizontally scrolling nav
 // pills and a separate back-to-top button. Mobile and tablet only.
 const pills = [
   ...NAV.map((n) => ({ label: n.short, href: n.href })),
@@ -12,8 +12,10 @@ const pills = [
 ---
 
 <nav
-  class="fixed inset-x-0 bottom-0 z-30 rounded-t-[24px] bg-cream pb-[max(20px,env(safe-area-inset-bottom))] pt-4 lg:hidden"
+  class="fixed inset-x-0 bottom-0 z-30 translate-y-full rounded-t-[24px] bg-cream pb-[max(20px,env(safe-area-inset-bottom))] pt-4 transition-transform duration-300 data-[shown]:translate-y-0 lg:hidden"
   aria-label="Sections"
+  inert
+  data-mobile-nav
 >
   <div class="flex items-center gap-2 pl-5 pr-5">
     <ul
@@ -41,3 +43,25 @@ const pills = [
     </a>
   </div>
 </nav>
+
+<script>
+  // Hidden over the hero; slides in once the next block fills most of the
+  // screen (the hero's bottom edge rises above mid-viewport — on phones the
+  // hero is shorter than the screen, so "partly visible" would be too early).
+  // `inert` keeps the hidden bar out of the tab order.
+  const nav = document.querySelector<HTMLElement>("[data-mobile-nav]")!;
+  const hero = document.querySelector<HTMLElement>("main > section");
+  let frame = 0;
+  function update() {
+    frame = 0;
+    const shown = !hero || hero.getBoundingClientRect().bottom < innerHeight / 2;
+    nav.toggleAttribute("data-shown", shown);
+    nav.inert = !shown;
+  }
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(update);
+  };
+  addEventListener("scroll", schedule, { passive: true });
+  addEventListener("resize", schedule);
+  update();
+</script>
