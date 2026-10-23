@@ -19,9 +19,11 @@ const total = QUESTIONS.length;
 
 <section id="quiz" class="section" aria-labelledby="quiz-title">
   <div
-    class="container-page grid items-center gap-6 lg:grid-cols-[1fr_minmax(0,636px)] lg:gap-10"
+    class="container-page grid items-start gap-6 lg:grid-cols-[1fr_minmax(0,636px)] lg:gap-10"
   >
-    <div class="text-center lg:text-left">
+    <!-- Pinned to the top of the row (not centred): the quiz card changes
+         height from question to question and must not move this copy. -->
+    <div class="text-center lg:pt-[55px] lg:text-left">
       <p class="eyebrow">Get started today</p>
       <h2
         id="quiz-title"
