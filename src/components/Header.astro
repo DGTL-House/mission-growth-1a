@@ -13,8 +13,10 @@ const { base = "" } = Astro.props;
 <header
   class="sticky top-0 z-40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
 >
+  <!-- Same column as the page content, so the nav lines up with the hero
+       image edges at every width (not just at 1440). -->
   <div
-    class="flex h-16 items-center justify-between px-5 md:px-10 xl:h-[84px] xl:px-20"
+    class="container-page flex h-16 items-center justify-between xl:h-[84px]"
   >
     <a
       href={`${base}#top`}
