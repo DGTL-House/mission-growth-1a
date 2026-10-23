@@ -2,10 +2,24 @@
 import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
 import Icon from "./Icon.astro";
 
-const searches = [
-  '"volunteer opportunities"',
-  '"mental health nonprofit"',
-  '"donate to animal shelter"',
+// Typed into the phone's search bar one after another, each followed by its
+// grant-funded ad (animation ported from the nonprofit landing, quiz branch).
+const queries = [
+  {
+    text: "volunteer opportunities",
+    title: "Find Volunteer Opportunities Near You",
+    desc: "Join 500+ volunteers making a difference. Sign up today — no experience needed.",
+  },
+  {
+    text: "mental health nonprofit",
+    title: "Mental Health Support & Resources",
+    desc: "Free counseling, peer support & workshops. Helping 2,000+ people in your community.",
+  },
+  {
+    text: "donate to animal shelter",
+    title: "Donate to Your Local Animal Shelter",
+    desc: "Every dollar feeds & shelters animals in need. 100% goes directly to the animals.",
+  },
 ];
 ---
 
@@ -41,6 +55,8 @@ const searches = [
 
     <!-- Search-ad mockup: phone with a grant-funded ad, plus the queries panel. -->
     <figure
+      data-phone
+      data-queries={JSON.stringify(queries)}
       class="reveal relative mx-auto w-[300px] scale-[0.86] xs:scale-100 lg:mr-[110px] xl:w-[395px]"
       aria-label="Example: a nonprofit's Google ad shown for the search “volunteer opportunities”"
     >
@@ -63,11 +79,13 @@ const searches = [
         <div
           class="mt-4 flex h-9 items-center gap-2 rounded-full border border-[#dadce0] px-3 text-[12px] text-ink shadow-[0_1px_3px_rgba(0,0,0,0.12)]"
         >
-          <Icon name="search" size={12} class="text-[#5f6368]" />
-          volunteer opportunities |
+          <Icon name="search" size={12} class="shrink-0 text-[#5f6368]" />
+          <span class="truncate" data-phone-typed>{queries[0].text}</span><span
+            class="phone-caret -ml-1 inline-block h-3 w-px bg-ink"></span>
         </div>
         <div
-          class="mt-3 rounded-[12px] border border-[#cdeec3] bg-[#edfee8] p-3 text-left"
+          class="phone-ad is-shown mt-3 rounded-[12px] border border-[#cdeec3] bg-[#edfee8] p-3 text-left"
+          data-phone-ad
         >
           <p class="flex items-center gap-1.5 text-[9px]">
             <span
@@ -76,12 +94,14 @@ const searches = [
             >
             <span class="text-[#0b7f3a]">www.yournonprofit.org</span>
           </p>
-          <p class="mt-1.5 text-[12px] font-semibold leading-tight text-[#1558d6]">
-            Find Volunteer Opportunities Near You
+          <p
+            class="mt-1.5 text-[12px] font-semibold leading-tight text-[#1558d6]"
+            data-phone-title
+          >
+            {queries[0].title}
           </p>
-          <p class="mt-2 text-[10px] leading-snug text-ink">
-            Join 500+ volunteers making a difference. Sign up today — no
-            experience needed.
+          <p class="mt-2 text-[10px] leading-snug text-ink" data-phone-desc>
+            {queries[0].desc}
           </p>
         </div>
       </div>
@@ -94,11 +114,17 @@ const searches = [
         </figcaption>
         <ul class="mt-4 space-y-3" aria-hidden="true">
           {
-            searches.map((q) => (
-              <li class="flex h-12 items-center gap-3 rounded-[8px] border border-[#e4e3dd] bg-[#f1f0eb] pl-4 pr-2.5">
+            queries.map((q, i) => (
+              <li
+                class:list={[
+                  "flex h-12 items-center gap-3 rounded-[8px] border border-[#e4e3dd] bg-[#f1f0eb] pl-4 pr-2.5 transition-colors duration-300",
+                  i === 0 && "is-active",
+                ]}
+                data-phone-query
+              >
                 <Icon name="search" size={11} class="shrink-0 text-ink" />
                 <span class="flex-1 truncate font-mono text-[14px] text-ink xl:text-[16px]">
-                  {q}
+                  "{q.text}"
                 </span>
                 <span class="rounded-full bg-[#d8ebb5] px-2 py-0.5 text-[15px] font-medium text-olive">
                   Ad
@@ -111,3 +137,110 @@ const searches = [
     </figure>
   </div>
 </section>
+
+<style>
+  /* Ad card rises in once the query is fully typed (nonprofit: .reveal-rise). */
+  .phone-ad {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s ease-out,
+      transform 0.4s ease-out;
+  }
+  .phone-ad.is-shown {
+    opacity: 1;
+    transform: none;
+  }
+  /* The query currently typed on the phone. */
+  [data-phone-query].is-active {
+    border-color: var(--color-lime-line);
+    background: #fff;
+  }
+  .phone-caret {
+    animation: phone-caret 1s steps(1) infinite;
+  }
+  @keyframes phone-caret {
+    50% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .phone-caret {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Typewriter loop: type a query → show its ad → hold → hide → delete →
+  // next query. Runs only while the phone is on screen; with reduced motion
+  // the static first frame (fully typed, ad shown) stays as rendered.
+  type Query = { text: string; title: string; desc: string };
+
+  const root = document.querySelector<HTMLElement>("[data-phone]")!;
+  const queries: Query[] = JSON.parse(root.dataset.queries!);
+  const typed = root.querySelector<HTMLElement>("[data-phone-typed]")!;
+  const ad = root.querySelector<HTMLElement>("[data-phone-ad]")!;
+  const title = root.querySelector<HTMLElement>("[data-phone-title]")!;
+  const desc = root.querySelector<HTMLElement>("[data-phone-desc]")!;
+  const rows = [...root.querySelectorAll<HTMLElement>("[data-phone-query]")];
+
+  const TYPE_MS = 85;
+  const DELETE_MS = 45;
+  const HOLD_MS = 2400;
+  const GAP_MS = 300;
+
+  // Start from the rendered frame: first query typed, its ad visible, so the
+  // first step is the hold before deleting.
+  let index = 0;
+  let text = queries[0].text;
+  let deleting = true;
+  let timer = 0;
+  let running = false;
+  let started = false;
+
+  function setActive(i: number) {
+    rows.forEach((r, n) => r.classList.toggle("is-active", n === i));
+  }
+
+  function tick() {
+    const current = queries[index];
+    let delay: number;
+    if (!deleting && text === current.text) {
+      ad.classList.add("is-shown");
+      deleting = true;
+      delay = HOLD_MS;
+    } else if (deleting && text === "") {
+      deleting = false;
+      index = (index + 1) % queries.length;
+      title.textContent = queries[index].title;
+      desc.textContent = queries[index].desc;
+      setActive(index);
+      delay = GAP_MS;
+    } else {
+      if (deleting && text === current.text) ad.classList.remove("is-shown");
+      text = deleting
+        ? text.slice(0, -1)
+        : current.text.slice(0, text.length + 1);
+      typed.textContent = text;
+      delay = deleting ? DELETE_MS : TYPE_MS;
+    }
+    timer = window.setTimeout(tick, delay);
+  }
+
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !running) {
+          running = true;
+          timer = window.setTimeout(tick, started ? TYPE_MS : HOLD_MS);
+          started = true;
+        } else if (!entry.isIntersecting && running) {
+          running = false;
+          clearTimeout(timer);
+        }
+      },
+      { threshold: 0.3 },
+    ).observe(root);
+  }
+</script>
