@@ -1,0 +1,43 @@
+---
+import { NAV } from "../consts";
+import Icon from "./Icon.astro";
+
+// Bottom section bar from the Figma mobile frame: a solid cream bar pinned to
+// the viewport bottom from the first screen, with horizontally scrolling nav
+// pills and a separate back-to-top button. Mobile and tablet only.
+const pills = [
+  ...NAV.map((n) => ({ label: n.short, href: n.href })),
+  { label: "Contact Us", href: "#contact" },
+];
+---
+
+<nav
+  class="fixed inset-x-0 bottom-0 z-30 rounded-t-[24px] bg-cream pb-[max(20px,env(safe-area-inset-bottom))] pt-4 lg:hidden"
+  aria-label="Sections"
+>
+  <div class="flex items-center gap-2 pl-5 pr-5">
+    <ul
+      class="flex min-w-0 flex-1 gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      {
+        pills.map((p) => (
+          <li class="shrink-0">
+            <a
+              href={p.href}
+              class="btn btn-primary h-11 px-[18px] text-[15px]"
+            >
+              {p.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href="#top"
+      class="btn btn-primary size-11 shrink-0 p-0"
+      aria-label="Back to top"
+    >
+      <Icon name="arrow-up" size={20} />
+    </a>
+  </div>
+</nav>
