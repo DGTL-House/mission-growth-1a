@@ -1,5 +1,5 @@
 ---
-import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import { QUALIFY_HREF, QUALIFY_LABEL, HERO_MOBILE } from "../consts";
 import PartnerChips from "./PartnerChips.astro";
 
 const stats = [
@@ -24,12 +24,13 @@ const stats = [
         sizes="calc(100vw - 80px)"
       />
       <img
-        src="/img/hero-670.webp"
+        src={HERO_MOBILE.src}
+        srcset={HERO_MOBILE.srcset}
+        sizes={HERO_MOBILE.sizes}
         alt="Volunteers in blue T-shirts sorting donations in a city park"
-        width="670"
-        height="320"
+        width="600"
+        height="287"
         fetchpriority="high"
-        decoding="async"
         class="aspect-[335/160] w-full rounded-[24px] object-cover md:aspect-[1536/541] md:rounded-[40px] xl:aspect-auto xl:h-[275px] xl:rounded-[48px]"
       />
     </picture>

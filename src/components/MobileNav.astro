@@ -12,21 +12,21 @@ const pills = [
 ---
 
 <nav
-  class="fixed inset-x-0 bottom-0 z-30 translate-y-full rounded-t-[24px] bg-cream pb-[max(20px,env(safe-area-inset-bottom))] pt-4 transition-transform duration-300 data-[shown]:translate-y-0 lg:hidden"
+  class="fixed inset-x-0 bottom-0 z-30 translate-y-full rounded-t-[24px] bg-cream pb-[max(16px,env(safe-area-inset-bottom))] pt-3 transition-transform duration-300 data-[shown]:translate-y-0 lg:hidden"
   aria-label="Sections"
   inert
   data-mobile-nav
 >
   <div class="flex items-center gap-2 pl-5 pr-5">
     <ul
-      class="flex min-w-0 flex-1 gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      class="flex min-w-0 flex-1 gap-1.5 overflow-x-auto overflow-y-hidden overscroll-x-contain [touch-action:pan-x] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {
         pills.map((p) => (
           <li class="shrink-0">
             <a
               href={p.href}
-              class="btn btn-primary h-11 px-[18px] text-[15px]"
+              class="btn btn-primary h-9 px-3.5 text-[13px]"
             >
               {p.label}
             </a>
@@ -36,10 +36,10 @@ const pills = [
     </ul>
     <a
       href="#top"
-      class="btn btn-primary size-11 shrink-0 p-0"
+      class="btn btn-primary size-9 shrink-0 p-0"
       aria-label="Back to top"
     >
-      <Icon name="arrow-up" size={20} />
+      <Icon name="arrow-up" size={16} />
     </a>
   </div>
 </nav>

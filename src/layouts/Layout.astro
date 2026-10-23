@@ -1,18 +1,25 @@
 ---
 import "../styles/global.css";
+import { HERO_MOBILE } from "../consts";
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   noindex?: boolean;
+  // Pages with the hero: preload its mobile image so the LCP fetch starts
+  // with the HTML instead of after parsing reaches <img>.
+  preloadHero?: boolean;
 }
 
 const {
-  title = "Get $10,000/Month in Free Google Ads for Your Nonprofit | DGTL House",
-  description = "Turn the Google Ad Grant into 20,000+ potential website visitors a year. Check in 60 seconds if your nonprofit qualifies for $10,000/month in free Google Search ads.",
+  title = "Get $10,000/Month in Free Google Ads | DGTL House",
+  description = "Turn the Google Ad Grant into 20,000+ potential website visitors a year. Check in 60 seconds if your nonprofit qualifies for $10,000/month in free Search ads.",
   image = "/og-image.webp",
+  imageAlt = "Volunteers in blue T-shirts sorting donations — DGTL House Google Ad Grants for nonprofits",
   noindex = false,
+  preloadHero = false,
 } = Astro.props;
 
 // `site` comes from SITE_URL (see astro.config.mjs).
@@ -23,6 +30,7 @@ const ogImage = new URL(image, siteUrl).href;
 const orgLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
+  "@id": new URL("/#organization", siteUrl).href,
   name: "DGTL House",
   url: siteUrl.href,
   logo: new URL("/nonprofit-logo.svg", siteUrl).href,
@@ -44,6 +52,8 @@ const orgLd = {
 const siteLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": new URL("/#website", siteUrl).href,
+  publisher: { "@id": new URL("/#organization", siteUrl).href },
   name: "DGTL House — Google Ad Grants for Nonprofits",
   url: siteUrl.href,
   inLanguage: "en-US",
@@ -82,11 +92,16 @@ const siteLd = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     <script
       type="application/ld+json"
@@ -99,6 +114,19 @@ const siteLd = {
       set:html={JSON.stringify(siteLd)}
     />
 
+    {
+      preloadHero && (
+        <link
+          rel="preload"
+          as="image"
+          href={HERO_MOBILE.src}
+          imagesrcset={HERO_MOBILE.srcset}
+          imagesizes={HERO_MOBILE.sizes}
+          media="(max-width: 767px)"
+          fetchpriority="high"
+        />
+      )
+    }
     <link
       rel="preload"
       href="/fonts/lexend-var.woff2"

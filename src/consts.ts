@@ -34,3 +34,13 @@ export const SOCIALS = [
   { label: "Facebook", href: "#", icon: "facebook" },
   { label: "LinkedIn", href: "#", icon: "linkedin" },
 ] as const;
+
+// Mobile (<768px) hero image. Hero.astro and the <head> preload in
+// Layout.astro must use the same srcset/sizes, or the preload is wasted.
+// Tablet and desktop keep their own <source> elements in Hero.astro.
+export const HERO_MOBILE = {
+  src: "/img/hero-m-600.webp",
+  srcset:
+    "/img/hero-m-400.webp 400w, /img/hero-m-600.webp 600w, /img/hero-m-800.webp 800w",
+  sizes: "calc(100vw - 40px)",
+} as const;
