@@ -1,0 +1,146 @@
+---
+import { CONTACT, NAV, SOCIALS } from "../consts";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+
+interface Props {
+  // Thank-you page links back to the landing instead of in-page anchors.
+  base?: string;
+}
+const { base = "" } = Astro.props;
+---
+
+<header
+  class="sticky top-0 z-40 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85"
+>
+  <div
+    class="flex h-16 items-center justify-between px-5 md:px-10 xl:h-[84px] xl:px-20"
+  >
+    <a
+      href={`${base}#top`}
+      class="text-[21px] text-black"
+      aria-label="DGTL House — home"
+    >
+      <Logo />
+    </a>
+
+    <nav aria-label="Primary" class="hidden items-center gap-[29px] lg:flex">
+      {
+        NAV.map((item) => (
+          <a
+            href={`${base}${item.href}`}
+            class="text-[18px] text-ink transition-colors hover:text-olive"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <slot name="cta" />
+    </nav>
+
+    <button
+      type="button"
+      class="-mr-2 grid size-11 place-items-center text-olive lg:hidden"
+      aria-label="Open menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-menu-open
+    >
+      <Icon name="menu" />
+    </button>
+  </div>
+</header>
+
+<!-- Mobile menu (Figma mobile / menu state). -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-white px-5 pb-8 md:px-10 lg:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+  hidden
+>
+  <div class="flex h-16 shrink-0 items-center justify-between">
+    <Logo class="text-[21px] text-black" />
+    <button
+      type="button"
+      class="grid size-11 place-items-center rounded-full bg-lime text-ink"
+      aria-label="Close menu"
+      data-menu-close
+    >
+      <Icon name="close" />
+    </button>
+  </div>
+
+  <nav aria-label="Mobile" class="mt-8">
+    <ul class="space-y-[22px]">
+      {
+        NAV.map((item) => (
+          <li>
+            <a
+              href={`${base}${item.href}`}
+              class="flex items-center justify-between py-1 text-[26px] font-medium leading-tight text-ink"
+              data-menu-link
+            >
+              {item.label}
+              <Icon name="chevron-right" size={20} class="text-body" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <div class="mt-auto pt-12 text-center">
+    <a href={`mailto:${CONTACT.email}`} class="block text-[15px] text-body"
+      >{CONTACT.email}</a
+    >
+    <a href={CONTACT.phoneHref} class="mt-2 block text-[15px] text-body"
+      >{CONTACT.phone}</a
+    >
+    <ul class="mt-5 flex justify-center gap-3">
+      {
+        SOCIALS.map((s) => (
+          <li>
+            <a
+              href={s.href}
+              aria-label={s.label}
+              class="grid size-10 place-items-center rounded-full bg-sand text-body"
+            >
+              <Icon name={s.icon} size={16} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<script>
+  const menu = document.getElementById("mobile-menu")!;
+  const opener = document.querySelector<HTMLButtonElement>("[data-menu-open]")!;
+
+  function setOpen(open: boolean) {
+    menu.hidden = !open;
+    opener.setAttribute("aria-expanded", String(open));
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (open) menu.querySelector<HTMLElement>("[data-menu-close]")?.focus();
+    else opener.focus({ preventScroll: true });
+  }
+
+  opener.addEventListener("click", () => setOpen(true));
+  menu
+    .querySelector("[data-menu-close]")!
+    .addEventListener("click", () => setOpen(false));
+  // Links close the menu and let the anchor scroll happen.
+  menu
+    .querySelectorAll("[data-menu-link]")
+    .forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !menu.hidden) setOpen(false);
+  });
+  // Leaving the mobile breakpoint with the menu open must not keep the page locked.
+  matchMedia("(min-width: 1024px)").addEventListener("change", (e) => {
+    if (e.matches && !menu.hidden) setOpen(false);
+  });
+</script>

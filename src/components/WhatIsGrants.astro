@@ -1,0 +1,66 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+
+const facts = [
+  {
+    icon: "calendar-check",
+    value: "22+ years",
+    label: "Official Google program",
+    text: "Google Ad Grants has been helping nonprofits since 2003. It's an established, ongoing program not a limited-time offer.",
+  },
+  {
+    icon: "globe",
+    value: "115,000+",
+    label: "Nonprofits in 51 countries",
+    text: "From small local nonprofits to global organizations, Google Ad Grants supports causes of all sizes.",
+  },
+  {
+    icon: "coins",
+    value: "$10 billion+",
+    label: "Awarded in free advertising",
+    text: "Google Ad Grants has provided over $10 billion in free advertising, including $650 million+ every month worldwide.",
+  },
+] as const;
+---
+
+<section id="ad-grants" class="section" aria-labelledby="what-title">
+  <div class="container-page">
+    <div class="text-center">
+      <p class="eyebrow reveal">What's inside</p>
+      <h2 id="what-title" class="h2 reveal mt-5">What Is Google Ad Grants?</h2>
+      <p class="lead reveal mx-auto mt-4 max-w-[620px] xl:mt-5">
+        Google Ad Grants is an official Google program. It's been running since
+        2003 and has awarded over $10 billion to nonprofits worldwide.
+      </p>
+      <a
+        href={QUALIFY_HREF}
+        class="btn btn-primary btn-lg reveal mt-6 w-full sm:w-auto xl:mt-8 xl:min-w-[332px]"
+        >{QUALIFY_LABEL}</a
+      >
+    </div>
+
+    <ul
+      class="reveal-stagger mt-8 grid gap-4 md:grid-cols-3 xl:mt-10 xl:gap-[25px]"
+    >
+      {
+        facts.map((f) => (
+          <li class="flex flex-col overflow-hidden rounded-[24px] border border-line bg-white">
+            <div class="bg-cream px-6 pb-7 pt-6 xl:px-8 xl:pb-8 xl:pt-8">
+              <span class="grid size-12 place-items-center rounded-[14px] border border-[#cde2a8] bg-lime-soft text-olive">
+                <Icon name={f.icon} size={22} />
+              </span>
+              <p class="mt-4 text-[44px] font-medium leading-none tracking-[-0.02em] text-ink xl:text-[56px]">
+                {f.value}
+              </p>
+              <p class="mt-2 text-[16px] text-muted">{f.label}</p>
+            </div>
+            <p class="flex-1 border-t border-line px-6 py-6 text-[14px] leading-[1.65] text-ink/85 xl:px-8 xl:py-8">
+              {f.text}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

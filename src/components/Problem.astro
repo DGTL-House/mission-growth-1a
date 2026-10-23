@@ -1,0 +1,65 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+
+const problems = [
+  {
+    icon: "dollar-circle",
+    title: "Paid advertising is expensive",
+    text: "Google Ads can cost thousands of dollars per month, making it difficult for nonprofits to justify spending donor funds on advertising.",
+  },
+  {
+    icon: "gear",
+    title: "Google Ad Grants require expertise",
+    text: "Managing a Google Ad Grant isn’t just about having time. It requires specialized knowledge, constant optimization, and a deep understanding of Google Ads.",
+  },
+  {
+    icon: "eye-off",
+    title: "Supporters are finding other organizations first",
+    text: "People are searching for causes like yours every day, but if you’re not visible on Google, they may discover another nonprofit instead.",
+  },
+] as const;
+---
+
+<section class="section" aria-labelledby="problem-title">
+  <div class="container-page">
+    <div class="text-center">
+      <p class="eyebrow reveal">The problem</p>
+      <h2 id="problem-title" class="h2 reveal mx-auto mt-5 max-w-[700px]">
+        Great mission, but not enough people see it
+      </h2>
+      <p class="lead reveal mx-auto mt-4 max-w-[760px] xl:mt-5">
+        Your organization is doing meaningful work, but reaching the right
+        supporters online is expensive, time-consuming, and difficult to manage
+        consistently.
+      </p>
+      <a
+        href={QUALIFY_HREF}
+        class="btn btn-primary btn-lg reveal mt-6 w-full sm:w-auto xl:mt-8 xl:px-6"
+      >
+        {QUALIFY_LABEL}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+
+    <ul
+      class="reveal-stagger mt-8 grid gap-4 md:grid-cols-3 xl:mt-8 xl:gap-[25px]"
+    >
+      {
+        problems.map((p) => (
+          <li class="card-cream rounded-[24px] p-5 xl:min-h-[291px] xl:rounded-[40px] xl:px-8 xl:pb-8 xl:pt-8">
+            <span class="grid size-10 place-items-center rounded-[12px] border border-blush-line bg-blush text-wine">
+              <Icon name={p.icon} size={22} />
+            </span>
+            <h3 class="mt-6 max-w-[320px] text-[18px] font-medium leading-[1.3] text-ink xl:mt-[26px] xl:text-[22px]">
+              {p.title}
+            </h3>
+            <p class="mt-2 text-[16px] leading-normal text-ink/80 xl:mt-2.5">
+              {p.text}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

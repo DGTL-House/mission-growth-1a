@@ -1,0 +1,242 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "Your Nonprofit Has $10,000/Month in Free Google Ads | DGTL House",
+  description = "Free 30-min Google Ad Grant review for US nonprofits: see what's holding your $10,000/month grant back and how to reach more people who care about your mission.",
+  image = "/og-image.webp",
+} = Astro.props;
+
+// `site` comes from SITE_URL (see astro.config.mjs).
+const siteUrl = Astro.site!;
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = new URL(image, siteUrl).href;
+
+const orgLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "DGTL House",
+  url: siteUrl.href,
+  logo: new URL("/nonprofit-logo.svg", siteUrl).href,
+  image: ogImage,
+  email: "nonprofit@dgtl-house.com",
+  telephone: "+12243134445",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "1635 Eagle Grove Ct.",
+    addressLocality: "Wheeling",
+    addressRegion: "IL",
+    postalCode: "60090",
+    addressCountry: "US",
+  },
+  areaServed: "US",
+  knowsAbout: ["Google Ad Grants", "Nonprofit Marketing", "Google Ads"],
+};
+
+const siteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "DGTL House — Google Ad Grants for Nonprofits",
+  url: siteUrl.href,
+  inLanguage: "en-US",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Mark JS available before paint so reveal animations only arm with JS. -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content="DGTL House" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" type="image/png" href="/icon.png" />
+    <link rel="apple-touch-icon" href="/icon.png" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DGTL House" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(orgLd)}
+    />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(siteLd)}
+    />
+
+    <link
+      rel="preload"
+      href="/fonts/lexend-var.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/roboto-mono-500.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- GTM + GA4 — same IDs as the `nonprofit` project, with its deferred
+         loader. The stubs queue events from the first paint; the libraries
+         themselves load on the first real interaction, or ~3.5s after `load`,
+         so they stay out of the LCP window. -->
+    <script is:inline>
+      (function () {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        gtag("js", new Date());
+        gtag("config", "G-T660MYBD46");
+
+        function loadTags() {
+          if (window.__tagsLoaded) return;
+          window.__tagsLoaded = true;
+          [
+            "https://www.googletagmanager.com/gtm.js?id=GTM-P72X9ZR4",
+            "https://www.googletagmanager.com/gtag/js?id=G-T660MYBD46",
+          ].forEach(function (src) {
+            var s = document.createElement("script");
+            s.async = true;
+            s.src = src;
+            document.head.appendChild(s);
+          });
+        }
+
+        var events = ["scroll", "mousemove", "touchstart", "keydown", "click"];
+        function trigger() {
+          events.forEach(function (e) {
+            window.removeEventListener(e, trigger);
+          });
+          loadTags();
+        }
+        events.forEach(function (e) {
+          window.addEventListener(e, trigger, { passive: true, once: true });
+        });
+
+        // requestIdleCallback's `timeout` is an upper bound, not a delay, so a
+        // real timer provides the floor and rIC only picks a quiet moment.
+        function whenIdle() {
+          if ("requestIdleCallback" in window) {
+            requestIdleCallback(loadTags, { timeout: 2000 });
+          } else {
+            loadTags();
+          }
+        }
+        function startTimer() {
+          setTimeout(whenIdle, 3500);
+        }
+        if (document.readyState === "complete") startTimer();
+        else window.addEventListener("load", startTimer, { once: true });
+      })();
+    </script>
+
+    <!-- Meta Pixel — same ID as nonprofit-next -->
+    <script is:inline>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '814203840958106');
+      fbq('track', 'PageView');
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=814203840958106&ev=PageView&noscript=1"
+      /></noscript
+    >
+
+    <!-- Contentsquare — same tag as nonprofit-next -->
+    <script
+      is:inline
+      defer
+      src="https://t.contentsquare.net/uxa/fc16179df91a5.js"></script>
+  </head>
+  <body class="min-h-screen">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-P72X9ZR4"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe></noscript
+    >
+
+    <slot />
+
+    <!-- Forward UTM / click-id params (fbclid, gclid, utm_*) from the landing
+         URL onto the outbound booking-widget links, so the CRM receives them.
+         Ported verbatim from nonprofit-next. -->
+    <script>
+      import { initUtmForwarding } from "../scripts/utm";
+      initUtmForwarding();
+    </script>
+
+    <script is:inline>
+      (function () {
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+        const targets = document.querySelectorAll(".reveal, .reveal-stagger");
+        if (reduce || !("IntersectionObserver" in window)) {
+          targets.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "0px 0px -40px 0px" },
+        );
+        targets.forEach((el) => io.observe(el));
+      })();
+    </script>
+  </body>
+</html>

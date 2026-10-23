@@ -1,0 +1,79 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import PartnerChips from "./PartnerChips.astro";
+
+const stats = [
+  ["$10K", "Per month free ads"],
+  ["99%", "Approval rate"],
+  ["30d", "To first results"],
+  ["115K+", "Nonprofits on the grant"],
+];
+---
+
+<section class="pb-8 md:pb-14 xl:pb-20" aria-labelledby="hero-title">
+  <div class="container-page">
+    <picture>
+      <source
+        media="(min-width: 1280px)"
+        srcset="/img/hero-1280.webp 1280w, /img/hero-2042.webp 2042w"
+        sizes="(min-width: 1600px) 1440px, calc(100vw - 160px)"
+      />
+      <source
+        media="(min-width: 768px)"
+        srcset="/img/hero-1536.webp 1536w"
+        sizes="calc(100vw - 80px)"
+      />
+      <img
+        src="/img/hero-670.webp"
+        alt="Volunteers in blue T-shirts sorting donations in a city park"
+        width="670"
+        height="320"
+        fetchpriority="high"
+        decoding="async"
+        class="aspect-[335/160] w-full rounded-[24px] object-cover md:aspect-[1536/541] md:rounded-[40px] xl:aspect-auto xl:h-[275px] xl:rounded-[48px]"
+      />
+    </picture>
+
+    <div class="mx-auto mt-6 max-w-[1280px] text-center xl:mt-10">
+      <PartnerChips />
+
+      <h1 id="hero-title" class="h1 mx-auto mt-3 max-w-[1000px] xl:mt-4">
+        Get $10,000/month in free Google Ads for your nonprofit
+      </h1>
+
+      <p
+        class="mx-auto mt-4 max-w-[340px] text-[16px] font-light leading-normal text-body xs:max-w-[560px] xl:mt-7 xl:max-w-[680px] xl:text-[18px]"
+      >
+        Turn your free ad budget into 20,000+ potential website visitors a year,
+        reach more supporters, and grow your nonprofit.
+      </p>
+
+      <a
+        href={QUALIFY_HREF}
+        class="btn btn-primary btn-lg mt-5 w-full sm:w-auto xl:mt-7 xl:min-w-[332px]"
+        >{QUALIFY_LABEL}</a
+      >
+
+      <dl
+        class="mx-auto mt-8 grid max-w-[1248px] grid-cols-2 gap-y-6 xl:mt-14 xl:grid-cols-4"
+      >
+        {
+          stats.map(([value, label], i) => (
+            <div
+              class:list={[
+                "flex flex-col-reverse items-center justify-center xl:h-[72px]",
+                i % 2 === 1 && "border-l border-[#dfdfdf]",
+                i === 2 && "xl:border-l xl:border-[#dfdfdf]",
+              ]}
+            >
+              <dt class="mt-1 text-[13px] text-muted xl:mt-2">{label}</dt>
+              <dd class="text-[32px] font-normal leading-none tracking-[-0.02em] text-ink xl:text-[42px]">
+                {value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

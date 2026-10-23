@@ -1,0 +1,15 @@
+---
+// ".dgtl - house" wordmark. The layout sets it as heavy, tightly tracked
+// grotesk text rather than an image, so it stays live text here too.
+interface Props {
+  class?: string;
+}
+const { class: className = "" } = Astro.props;
+---
+
+<span
+  class:list={[
+    "font-logo font-bold tracking-[-0.045em] leading-none whitespace-nowrap",
+    className,
+  ]}>.dgtl - house</span
+>

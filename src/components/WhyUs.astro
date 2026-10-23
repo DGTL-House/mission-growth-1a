@@ -1,0 +1,64 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+
+const reasons = [
+  {
+    icon: "dollar-circle",
+    title: "Save on Ad Management",
+    text: "Get expert Google Ads management for just $250/month. As a Google Partner specializing in nonprofits, we offer the same services businesses typically pay $1,000+ for — at a fraction of the cost.",
+  },
+  {
+    icon: "bolt",
+    title: "Resolve problems faster",
+    text: "A suspended account, a rejected ad, a grant that stops spending — we go straight to Google’s partner team. What takes a regular agency 7 to 10 days, we resolve the same day",
+  },
+  {
+    icon: "megaphone",
+    title: "Reach up to 10× more people",
+    text: "Most Ad Grants agencies run search ads and nothing else. As a Google Partner we unlock Performance Max, putting you in front of donors across Search, YouTube, Display, Gmail and Maps.",
+  },
+] as const;
+---
+
+<section class="section" aria-labelledby="why-title">
+  <div class="container-page">
+    <div class="text-center">
+      <p class="eyebrow reveal">Why us</p>
+      <h2 id="why-title" class="h2 reveal mx-auto mt-5 max-w-[780px]">
+        We’re not just another agency — we’re Google Ad Grant specialists
+      </h2>
+      <p class="lead reveal mx-auto mt-4 max-w-[720px] xl:mt-5">
+        Direct access to Google's resources means we deliver results others
+        can't — at prices others can't match.
+      </p>
+      <a
+        href={QUALIFY_HREF}
+        class="btn btn-primary btn-lg reveal mt-6 w-full sm:w-auto xl:mt-8 xl:px-6"
+      >
+        {QUALIFY_LABEL}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+
+    <ul
+      class="reveal-stagger mt-8 grid gap-4 lg:grid-cols-3 xl:mt-14 xl:gap-[25px]"
+    >
+      {
+        reasons.map((r) => (
+          <li class="card-cream rounded-[24px] p-5 xl:min-h-[320px] xl:rounded-[40px] xl:px-8 xl:pb-9 xl:pt-8">
+            <span class="grid size-[74px] place-items-center rounded-[20px] border border-[#cde2a8] bg-lime-soft text-olive">
+              <Icon name={r.icon} size={30} />
+            </span>
+            <h3 class="mt-7 text-[18px] font-medium leading-[1.3] text-ink xl:mt-[38px] xl:text-[22px]">
+              {r.title}
+            </h3>
+            <p class="mt-2 text-[16px] leading-normal text-ink/80 xl:mt-2.5">
+              {r.text}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,97 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+
+const benefits = [
+  {
+    icon: "users",
+    title: "Reach the right people",
+    text: "Appear in Google Search when people look for causes, programs, or services like yours.",
+  },
+  {
+    icon: "chart-area",
+    title: "Build consistent website traffic",
+    text: "Keep reaching potential supporters with a grant that renews every month.",
+  },
+  {
+    icon: "wallet",
+    title: "Advertise without paying for clicks",
+    text: "Use up to $10,000/month in grant-funded search ads without spending donor money on ad clicks.",
+  },
+  {
+    icon: "target",
+    title: "Measure sign-ups",
+    text: "Promote donations, volunteer opportunities, events, and program sign-ups.",
+  },
+] as const;
+---
+
+<section class="section" aria-labelledby="changes-title">
+  <div class="container-page">
+    <div class="text-center">
+      <p class="eyebrow reveal">What is Google Ad Grants?</p>
+      <h2 id="changes-title" class="h2 reveal mx-auto mt-5 max-w-[860px]">
+        What the Google Ad Grants actually changes for you
+      </h2>
+      <p class="lead lead-lg reveal mx-auto mt-4 max-w-[910px] xl:mt-5">
+        You are doing meaningful work, but being visible online often requires
+        time and marketing resources your team cannot spare.
+      </p>
+      <a
+        href={QUALIFY_HREF}
+        class="btn btn-primary btn-lg reveal mt-6 w-full sm:w-auto xl:mt-8 xl:px-6"
+      >
+        {QUALIFY_LABEL}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+
+    <ul
+      class="reveal-stagger mt-8 grid gap-4 md:grid-cols-2 xl:mt-14 xl:gap-x-6 xl:gap-y-6"
+    >
+      {
+        benefits.map((b) => (
+          <li class="card-cream rounded-[24px] p-5 xl:min-h-[200px] xl:rounded-[40px] xl:px-9 xl:py-6">
+            <span class="grid size-12 place-items-center rounded-[14px] border border-[#cde2a8] bg-lime-soft text-olive">
+              <Icon name={b.icon} size={20} />
+            </span>
+            <h3 class="mt-5 text-[20px] font-medium leading-tight text-ink xl:mt-[30px] xl:text-[24px]">
+              {b.title}
+            </h3>
+            <p class="mt-2 text-[16px] leading-normal text-ink/80 xl:mt-3">
+              {b.text}
+            </p>
+          </li>
+        ))
+      }
+      <li
+        class="card-cream rounded-[24px] p-5 md:col-span-2 xl:rounded-[40px] xl:px-9 xl:py-6"
+      >
+        <div class="flex items-center gap-2">
+          <span
+            class="grid size-12 place-items-center rounded-[14px] border border-[#cde2a8] bg-lime-soft text-olive"
+          >
+            <Icon name="laptop" size={22} />
+          </span>
+          <span
+            class="flex h-12 items-center gap-2 rounded-full border border-[#dcdad3] bg-[#eeece6] px-6"
+          >
+            <span class="text-[8px] text-ink">by</span>
+            <Logo class="text-[19px] text-black" />
+          </span>
+        </div>
+        <h3
+          class="mt-5 text-[20px] font-medium leading-tight text-ink xl:mt-[30px] xl:text-[24px]"
+        >
+          Website included with every plan
+        </h3>
+        <p class="mt-2 text-[16px] leading-normal text-ink/80 xl:mt-3">
+          If you don't have a website, we'll build you a fast, mobile-friendly
+          one that meets Google Ad Grants requirements and turns visitors into
+          supporters.
+        </p>
+      </li>
+    </ul>
+  </div>
+</section>

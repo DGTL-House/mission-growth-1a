@@ -1,0 +1,113 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+
+const searches = [
+  '"volunteer opportunities"',
+  '"mental health nonprofit"',
+  '"donate to animal shelter"',
+];
+---
+
+<section class="section" aria-labelledby="opportunity-title">
+  <div
+    class="container-page grid items-center gap-10 lg:grid-cols-[1fr_auto] xl:gap-16"
+  >
+    <div class="text-center lg:text-left">
+      <p class="eyebrow reveal">The opportunity</p>
+      <h2
+        id="opportunity-title"
+        class="h2 reveal mx-auto mt-5 max-w-[640px] lg:mx-0 xl:mt-6"
+      >
+        Show up when people are already looking for a cause like yours
+      </h2>
+      <p
+        class="reveal mx-auto mt-4 max-w-[640px] text-[18px] font-light leading-normal text-body lg:mx-0 xl:mt-7 xl:text-[22px]"
+      >
+        Reach people already searching for causes like yours. Attract potential
+        donors, volunteers, and supporters to your website.
+        <strong class="font-semibold"
+          >Eligible nonprofits pay $0 for Google Search ad clicks</strong
+        >
+      </p>
+      <a
+        href={QUALIFY_HREF}
+        class="btn btn-primary btn-lg reveal mt-6 w-full sm:w-auto xl:mt-7 xl:px-6"
+      >
+        {QUALIFY_LABEL}
+        <Icon name="arrow-right" size={18} />
+      </a>
+    </div>
+
+    <!-- Search-ad mockup: phone with a grant-funded ad, plus the queries panel. -->
+    <figure
+      class="reveal relative mx-auto w-[300px] scale-[0.86] xs:scale-100 lg:mr-[110px] xl:w-[395px]"
+      aria-label="Example: a nonprofit's Google ad shown for the search “volunteer opportunities”"
+    >
+      <div
+        class="mx-auto h-[310px] w-[244px] overflow-hidden rounded-t-[46px] border-[10px] border-b-0 border-[#111] bg-white px-3 pt-3 xl:w-[300px]"
+        aria-hidden="true"
+      >
+        <div class="mx-auto h-7 w-24 rounded-full bg-[#111]"></div>
+        <p
+          class="mt-2 text-center text-[30px] font-medium leading-none tracking-[-0.03em]"
+        >
+          <span class="text-[#4285f4]">G</span><span class="text-[#ea4335]"
+            >o</span
+          ><span class="text-[#fbbc05]">o</span><span class="text-[#4285f4]"
+            >g</span
+          ><span class="text-[#34a853]">l</span><span class="text-[#ea4335]"
+            >e</span
+          >
+        </p>
+        <div
+          class="mt-4 flex h-9 items-center gap-2 rounded-full border border-[#dadce0] px-3 text-[12px] text-ink shadow-[0_1px_3px_rgba(0,0,0,0.12)]"
+        >
+          <Icon name="search" size={12} class="text-[#5f6368]" />
+          volunteer opportunities |
+        </div>
+        <div
+          class="mt-3 rounded-[12px] border border-[#cdeec3] bg-[#edfee8] p-3 text-left"
+        >
+          <p class="flex items-center gap-1.5 text-[9px]">
+            <span
+              class="rounded-[3px] border border-ink px-1 text-[8px] font-medium leading-tight"
+              >Ad</span
+            >
+            <span class="text-[#0b7f3a]">www.yournonprofit.org</span>
+          </p>
+          <p class="mt-1.5 text-[12px] font-semibold leading-tight text-[#1558d6]">
+            Find Volunteer Opportunities Near You
+          </p>
+          <p class="mt-2 text-[10px] leading-snug text-ink">
+            Join 500+ volunteers making a difference. Sign up today — no
+            experience needed.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="relative -mt-1 rounded-[16px] border border-[#e9e8e3] bg-cream px-[19px] pb-[19px] pt-6 shadow-[0_40px_60px_-30px_rgba(22,21,20,0.25)]"
+      >
+        <figcaption class="text-center text-[16px] font-semibold text-ink">
+          People are already searching:
+        </figcaption>
+        <ul class="mt-4 space-y-3" aria-hidden="true">
+          {
+            searches.map((q) => (
+              <li class="flex h-12 items-center gap-3 rounded-[8px] border border-[#e4e3dd] bg-[#f1f0eb] pl-4 pr-2.5">
+                <Icon name="search" size={11} class="shrink-0 text-ink" />
+                <span class="flex-1 truncate font-mono text-[14px] text-ink xl:text-[16px]">
+                  {q}
+                </span>
+                <span class="rounded-full bg-[#d8ebb5] px-2 py-0.5 text-[15px] font-medium text-olive">
+                  Ad
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </figure>
+  </div>
+</section>

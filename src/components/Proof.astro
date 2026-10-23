@@ -1,0 +1,208 @@
+---
+import Icon from "./Icon.astro";
+
+const reviews = [
+  {
+    name: "Sarah Johnson",
+    role: "Executive Director, Shelter First",
+    photo: "av-sarah-j",
+    rating: "5.0",
+    quote:
+      "Before DGTL-House, we spent $1,200/month on Google ads with mediocre results. Now we're at the top of search for every relevant keyword in our city and paying nothing. Our donation page visits went up 340% in 3 months.",
+  },
+  {
+    name: "Marcus Williams",
+    role: "Development Director, City Food Bank",
+    photo: "av-marcus-w",
+    rating: "5.0",
+    quote:
+      "We'd applied for Google Ad Grants ourselves and got rejected twice. DGTL-House handled everything and we were approved in 12 days. Three months in, we've added over 80 new regular donors.",
+  },
+  {
+    name: "Dr. Elena Reyes",
+    role: "CEO, Mental Health Matters",
+    photo: "av-elena-r",
+    rating: "4.9",
+    quote:
+      "Our cause is urgent but we had zero online presence. DGTL-House built our website, got the grant, and launched campaigns — all in one month. We now get 200+ calls per month from people who found us via Google.",
+  },
+];
+
+const photos = [
+  {
+    src: "proof-planting",
+    h: 830,
+    alt: "Volunteers in green T-shirts planting a young tree together",
+  },
+  {
+    src: "proof-shelter",
+    h: 726,
+    alt: "Smiling animal-shelter volunteer hugging rescued dogs",
+  },
+  {
+    src: "proof-foodbank",
+    h: 734,
+    alt: "Food bank volunteer smiling next to donated groceries",
+  },
+];
+
+// Desktop grid reads review, photo, review / photo, review, photo.
+const cells = reviews.flatMap((r, i) => [
+  { kind: "review" as const, review: r },
+  { kind: "photo" as const, photo: photos[i] },
+]);
+---
+
+<section class="section" aria-labelledby="proof-title">
+  <div class="container-page">
+    <div class="relative text-center">
+      <p class="eyebrow reveal">The proof</p>
+      <h2
+        id="proof-title"
+        class="reveal mt-5 text-[28px] font-medium leading-[1.15] tracking-[-0.02em] text-ink xs:text-[32px] xl:text-[48px] xl:tracking-[-0.01em]"
+      >
+        Hear from our customers
+      </h2>
+      <p class="reveal mx-auto mt-3 max-w-[340px] text-[16px] font-light leading-[1.85] text-body sm:max-w-none xl:text-[24px] xl:leading-normal">
+        Join 100+ nonprofits growing with Google Ads &amp; SEO
+      </p>
+      <p
+        class="absolute bottom-0 right-2 hidden items-end gap-2 text-[16px] text-[#17313b] lg:flex"
+      >
+        Powered by
+        <img
+          src="/img/clutch.webp"
+          alt="Clutch"
+          width="225"
+          height="64"
+          loading="lazy"
+          class="h-[30px] w-auto"
+        />
+      </p>
+    </div>
+
+    <ul
+      class="-mx-5 mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-px-5 px-5 pb-1 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:gap-[22px] md:overflow-visible md:px-0 xl:mt-14 xl:grid-cols-3 [&::-webkit-scrollbar]:hidden"
+      data-reviews
+    >
+      {
+        cells.map((cell) =>
+          cell.kind === "review" ? (
+            <li data-review-card class="flex w-[280px] shrink-0 snap-start flex-col rounded-[24px] border border-[#e4e3df] bg-white p-5 md:w-auto xl:rounded-[40px] xl:p-[31px] xl:pr-[39px]">
+              <div class="flex items-start gap-3 xl:max-w-[300px] xl:gap-[12px]">
+                <img
+                  src={`/img/${cell.review.photo}.webp`}
+                  alt=""
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                  decoding="async"
+                  class="size-12 rounded-full border border-[#e4e3df] object-cover xl:size-[50px]"
+                />
+                <div>
+                  <p class="text-[16px] font-semibold text-ink xl:text-[18px]">
+                    {cell.review.name}
+                  </p>
+                  <p class="mt-1 text-[14px] leading-[1.45] text-muted xl:text-[18px] xl:leading-[1.55]">
+                    {cell.review.role}
+                  </p>
+                </div>
+              </div>
+              <div class="mt-4 flex items-center justify-between xl:mt-[22px]">
+                <span
+                  class="flex gap-0.5 text-star"
+                  aria-label={`Rated ${cell.review.rating} out of 5`}
+                >
+                  {[0, 1, 2, 3, 4].map(() => (
+                    <Icon name="star" size={24} class="size-[22px] xl:size-6" />
+                  ))}
+                </span>
+                <span class="text-[16px] font-semibold text-ink xl:text-[18px]">
+                  {cell.review.rating}
+                </span>
+              </div>
+              <blockquote class="mt-5 text-[16px] leading-[1.45] text-ink xl:max-w-[295px] xl:text-[18px] xl:leading-[1.5]">
+                “{cell.review.quote}”
+              </blockquote>
+              <p class="mt-auto flex items-center gap-1.5 pt-6 text-[12px] text-ink">
+                <Icon name="verified" size={15} class="text-ink" />
+                Verified Review
+              </p>
+            </li>
+          ) : (
+            <li class="hidden overflow-hidden rounded-[24px] md:block xl:rounded-[40px]">
+              <img
+                src={`/img/${cell.photo.src}.webp`}
+                alt={cell.photo.alt}
+                width="824"
+                height={cell.photo.h}
+                loading="lazy"
+                decoding="async"
+                class="size-full object-cover"
+              />
+            </li>
+          ),
+        )
+      }
+    </ul>
+
+    <div class="mt-5 flex justify-center gap-1.5 md:hidden" aria-hidden="true">
+      {
+        reviews.map((_, i) => (
+          <span
+            class:list={[
+              "h-1.5 rounded-full transition-all",
+              i === 0 ? "w-5 bg-olive" : "w-1.5 bg-dot",
+            ]}
+            data-review-dot
+          />
+        ))
+      }
+    </div>
+
+    <p
+      class="mt-4 flex items-end justify-center gap-2 text-[16px] text-[#17313b] lg:hidden"
+    >
+      Powered by
+      <img
+        src="/img/clutch.webp"
+        alt="Clutch"
+        width="225"
+        height="64"
+        loading="lazy"
+        class="h-7 w-auto"
+      />
+    </p>
+  </div>
+</section>
+
+<script>
+  // Mobile-only: sync the dots with the swipe position.
+  const list = document.querySelector<HTMLElement>("[data-reviews]")!;
+  const cards = [...list.querySelectorAll<HTMLElement>("[data-review-card]")];
+  const dots = [...document.querySelectorAll<HTMLElement>("[data-review-dot]")];
+  let frame = 0;
+  list.addEventListener(
+    "scroll",
+    () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const origin = cards[0].offsetLeft;
+        const dist = (c: HTMLElement) =>
+          Math.abs(c.offsetLeft - origin - list.scrollLeft);
+        const active = cards.reduce(
+          (best, c, i) => (dist(c) < dist(cards[best]) ? i : best),
+          0,
+        );
+        dots.forEach((d, i) => {
+          const on = i === active;
+          d.classList.toggle("w-5", on);
+          d.classList.toggle("bg-olive", on);
+          d.classList.toggle("w-1.5", !on);
+          d.classList.toggle("bg-dot", !on);
+        });
+      });
+    },
+    { passive: true },
+  );
+</script>

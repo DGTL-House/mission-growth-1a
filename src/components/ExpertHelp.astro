@@ -1,0 +1,76 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+
+const alone = [
+  "Research application rules and website requirements yourself",
+  "Learn Google Ads on top of everything else",
+  "Guess which campaigns are driving meaningful actions",
+  "Spend staff time troubleshooting and monitoring",
+];
+const withUs = [
+  "Get help navigating eligibility and the application",
+  "Have specialists set up and manage your campaigns",
+  "Track relevant visits and conversions",
+  "Keep your team focused on your mission",
+];
+---
+
+<section class="section" aria-labelledby="expert-title">
+  <div class="container-page">
+    <div class="text-center">
+      <p class="eyebrow reveal">Why expert help matters</p>
+      <h2 id="expert-title" class="h2 reveal mx-auto mt-5 max-w-[960px]">
+        A free ad budget is useful. Turning it into impact takes work
+      </h2>
+      <p class="lead lead-lg reveal mx-auto mt-4 max-w-[960px] xl:mt-5">
+        Google sets eligibility and campaign requirements. Once ads are live,
+        they still need the right keywords, relevant pages and ongoing
+        attention.
+      </p>
+    </div>
+
+    <div class="mt-8 grid gap-4 lg:grid-cols-2 xl:mt-[60px] xl:gap-6">
+      <div
+        class="card-cream reveal min-w-0 rounded-[24px] p-6 xl:rounded-[40px] xl:px-12 xl:pb-12 xl:pt-[46px]"
+      >
+        <h3 class="text-[20px] font-normal text-ink xl:text-[24px]">
+          Trying to manage it alone
+        </h3>
+        <ul class="mt-5 space-y-3 xl:mt-6 xl:space-y-[20px]">
+          {
+            alone.map((item) => (
+              <li class="flex gap-3 text-[16px] leading-normal text-body xl:-ml-1.5 xl:text-[18px]">
+                <Icon name="x-badge" size={22} class="mt-0.5 shrink-0" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div
+        class="dark-panel reveal min-w-0 rounded-[24px] p-6 xl:rounded-[40px] xl:px-10 xl:pb-10 xl:pt-[46px]"
+      >
+        <h3 class="text-[20px] font-normal xl:text-[24px]">With DGTL-House:</h3>
+        <ul class="mt-5 space-y-3 xl:mt-6 xl:space-y-[20px]">
+          {
+            withUs.map((item) => (
+              <li class="flex gap-3 text-[16px] leading-normal xl:text-[18px]">
+                <Icon name="check-dark" size={22} class="mt-0.5 shrink-0" />
+                {item}
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href={QUALIFY_HREF}
+          class="btn btn-primary btn-lg mt-6 w-full sm:w-auto xl:mt-[33px] xl:px-6"
+        >
+          {QUALIFY_LABEL}
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

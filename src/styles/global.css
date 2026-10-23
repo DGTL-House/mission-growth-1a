@@ -1,0 +1,332 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts — no render-blocking third-party font request.
+   display:swap avoids invisible text. Lexend is the variable latin build;
+   Roboto Mono is only used for the small uppercase eyebrows/labels, so a
+   single 500 weight is enough. */
+@font-face {
+    font-family: "Lexend";
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("/fonts/lexend-var.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("/fonts/roboto-mono-500.woff2") format("woff2");
+}
+
+/* ============================================================
+   Design tokens — sampled from the Figma PDF export of the
+   mission-growth layout (frame 1440 / 375).
+   ============================================================ */
+
+@theme {
+    --font-sans: "Lexend", -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    --font-mono: "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-logo: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --color-ink: #161514;
+    --color-body: #52504c;
+    --color-muted: #7a7770;
+    --color-lime: #c4ed82;
+    --color-lime-soft: #e5f3ca;
+    --color-lime-line: #aac976;
+    --color-olive: #3f5028;
+    --color-forest: #16210f;
+    --color-cream: #f8f7f3;
+    --color-sand: #f0eee6;
+    --color-line: #dcdbd6;
+    --color-dot: #cbcfc4;
+    --color-rose: #f2e6e1;
+    --color-rose-line: #e3cdc7;
+    --color-wine: #812626;
+    --color-blush: #fcf3f2;
+    --color-blush-line: #e2c3c2;
+    --color-mint: #eef5e0;
+    --color-star: #ff302b;
+    --color-voucher: #d9f48a;
+    --color-voucher-line: #c3df6c;
+    --color-covered: #ebf9d4;
+    --color-covered-line: #d3e9b1;
+    --color-pill: #e6e4de;
+
+    --breakpoint-xs: 30rem;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* keep anchored sections clear of the sticky header */
+    scroll-padding-top: 88px;
+}
+
+body {
+    margin: 0;
+    background-color: #ffffff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+button,
+a {
+    cursor: pointer;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ============================================================
+   Shared components
+   ============================================================ */
+
+@layer components {
+    /* 1280 content column at 1440, 1440 at 1920 (Figma 1920 frame). */
+    .container-page {
+        width: 100%;
+        max-width: 1600px;
+        margin-inline: auto;
+        padding-inline: 20px;
+    }
+    @media (min-width: 768px) {
+        .container-page {
+            padding-inline: 40px;
+        }
+    }
+    @media (min-width: 1280px) {
+        .container-page {
+            padding-inline: 80px;
+        }
+    }
+
+    .section {
+        padding-block: 32px;
+    }
+    @media (min-width: 768px) {
+        .section {
+            padding-block: 56px;
+        }
+    }
+    @media (min-width: 1280px) {
+        .section {
+            padding-block: 80px;
+        }
+    }
+
+    .eyebrow {
+        font-family: var(--font-mono);
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 1.2;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: var(--color-body);
+    }
+
+    .h1 {
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 1.03;
+        letter-spacing: -0.01em;
+        color: var(--color-ink);
+    }
+    @media (min-width: 768px) {
+        .h1 {
+            font-size: 48px;
+        }
+    }
+    @media (min-width: 1280px) {
+        .h1 {
+            font-size: 60px;
+            line-height: 1.04;
+        }
+    }
+
+    .h2 {
+        font-weight: 500;
+        font-size: 30px;
+        line-height: 1.07;
+        letter-spacing: -0.01em;
+        color: var(--color-ink);
+    }
+    @media (min-width: 768px) {
+        .h2 {
+            font-size: 40px;
+        }
+    }
+    @media (min-width: 1280px) {
+        .h2 {
+            font-size: 48px;
+            line-height: 1.08;
+        }
+    }
+
+    .lead {
+        font-weight: 300;
+        font-size: 18px;
+        line-height: 1.5;
+        color: var(--color-body);
+        text-wrap: pretty;
+    }
+    @media (min-width: 1280px) {
+        .lead {
+            font-size: 22px;
+        }
+        .lead-lg {
+            font-size: 24px;
+        }
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        border-radius: 999px;
+        font-weight: 500;
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+    .btn:focus-visible {
+        outline: 2px solid var(--color-olive);
+        outline-offset: 3px;
+    }
+
+    .btn-primary {
+        background: var(--color-lime);
+        color: var(--color-olive);
+    }
+    .btn-primary:hover {
+        background: #b7e46d;
+        box-shadow: 0 8px 24px -10px rgb(63 80 40 / 0.45);
+    }
+    .btn-primary:active {
+        transform: translateY(1px);
+    }
+
+    .btn-secondary {
+        background: var(--color-cream);
+        color: var(--color-body);
+        border: 1px solid #e9e8e2;
+    }
+    .btn-secondary:hover {
+        background: #f0efe9;
+    }
+
+    /* 56px on mobile, 72px on desktop — the Figma "large" CTA. */
+    .btn-lg {
+        height: 56px;
+        padding-inline: 20px;
+        font-size: 18px;
+    }
+    @media (min-width: 1280px) {
+        .btn-lg {
+            height: 72px;
+            padding-inline: 48px;
+            font-size: 24px;
+        }
+    }
+
+    .card-cream {
+        background: var(--color-cream);
+        border: 1px solid var(--color-line);
+    }
+
+    .dark-panel {
+        background: var(--color-forest);
+        border: 1px solid var(--color-lime-line);
+        color: #fff;
+    }
+}
+
+/* ============================================================
+   Marquee (case-study organisation pills)
+   ============================================================ */
+
+@keyframes marquee {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-track {
+    animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+/* ============================================================
+   Scroll reveal (ported from nonprofit-next)
+   Gated behind `.js`: with no JavaScript the content stays fully
+   visible, so a blocked script never hides copy.
+   ============================================================ */
+
+.js .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1),
+        transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+.js .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+        opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1),
+        transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.js .reveal-stagger.is-visible > * {
+    opacity: 1;
+    transform: none;
+}
+
+.js .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.08s; }
+.js .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.16s; }
+.js .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.24s; }
+.js .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.32s; }
+.js .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 0.40s; }
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .reveal,
+    .reveal-stagger > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+    .marquee-track {
+        animation: none;
+    }
+}

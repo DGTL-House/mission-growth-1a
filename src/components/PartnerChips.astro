@@ -1,0 +1,45 @@
+---
+// "Google for Nonprofits partner" + "Google Partner" badges (hero, final CTA).
+interface Props {
+  class?: string;
+  // Final CTA on mobile shows only the wide badge (Figma).
+  compact?: boolean;
+}
+const { class: className = "", compact = false } = Astro.props;
+---
+
+<ul
+  class:list={["flex items-stretch justify-center gap-2.5", className]}
+  aria-label="Certifications"
+>
+  <li
+    class="flex h-[34px] min-w-0 flex-1 items-center justify-center gap-2 rounded-[10px] border border-[#e9e8e2] bg-white px-2.5 sm:flex-none sm:px-3.5"
+  >
+    <img
+      src="/img/google.webp"
+      alt="Google"
+      width="58"
+      height="19"
+      class="h-[14px] w-auto sm:h-[19px]"
+    />
+    <span
+      class="whitespace-nowrap font-mono text-[11px] font-medium uppercase tracking-[0.01em] text-[#3c4043] xs:text-[12px]"
+      >for nonprofits partner</span
+    >
+  </li>
+  <li
+    class:list={[
+      "h-[34px] shrink-0 flex-col items-start justify-center rounded-[10px] border border-[#e9e8e2] bg-cream px-3.5 leading-none",
+      compact ? "hidden sm:flex" : "flex",
+    ]}
+  >
+    <img
+      src="/img/google.webp"
+      alt=""
+      width="25"
+      height="8"
+      class="h-2 w-auto mix-blend-multiply"
+    />
+    <span class="mt-px text-[13px] font-normal text-[#5f6368]">Partner</span>
+  </li>
+</ul>

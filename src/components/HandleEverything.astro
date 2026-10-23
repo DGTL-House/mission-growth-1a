@@ -1,0 +1,139 @@
+---
+import { QUALIFY_HREF, QUALIFY_LABEL } from "../consts";
+import Icon from "./Icon.astro";
+
+const weTake = [
+  "Eligibility check and grant application",
+  "Website build",
+  "Account setup and full campaign architecture",
+  "Keyword research tailored to your mission",
+  "Ad copywriting, creative testing, optimization",
+  "Conversion tracking",
+  "Monthly optimization",
+  "Compliance management",
+  "Monthly performance reports",
+];
+const youDont = [
+  "Google Ads expertise or training",
+  "Dedicated marketing staff",
+  "Technical background",
+  "Large ad budget",
+  "Hours of your time each week",
+];
+---
+
+<section class="section" aria-labelledby="handle-title">
+  <div class="container-page">
+    <div
+      class="card-cream reveal rounded-[24px] px-3 py-4 xl:rounded-[48px] xl:px-[223px] xl:pb-[23px] xl:pt-[75px]"
+    >
+      <div
+        class="mx-auto max-w-[774px] rounded-[24px] bg-white px-5 py-8 xl:rounded-[40px] xl:px-12 xl:pb-[52px] xl:pt-12"
+      >
+        <div class="text-center">
+          <ul class="flex justify-center gap-2.5" aria-label="Certifications">
+            <li
+              class="flex h-[34px] items-center rounded-[10px] bg-[#eeece6] px-3 font-mono text-[12px] font-medium uppercase tracking-[0.02em] text-[#3c4043]"
+            >
+              Official Google Partner
+            </li>
+            <li
+              class="flex h-[34px] flex-col items-start justify-center rounded-[10px] border border-[#e9e8e2] bg-cream px-3.5 leading-none"
+            >
+              <img
+                src="/img/google.webp"
+                alt=""
+                width="25"
+                height="8"
+                class="h-2 w-auto mix-blend-multiply"
+              />
+              <span class="mt-px text-[13px] text-[#5f6368]">Partner</span>
+            </li>
+          </ul>
+          <h2
+            id="handle-title"
+            class="mt-4 text-[28px] font-medium leading-tight tracking-[-0.01em] text-ink xl:mt-3 xl:text-[48px]"
+          >
+            We’ll handle everything
+          </h2>
+          <p
+            class="mx-auto mt-3 max-w-[520px] text-[16px] leading-normal text-body xl:mt-4 xl:text-[18px]"
+          >
+            Our team takes over your Google Ad Grant from start to finish or
+            builds it from the ground up
+          </p>
+        </div>
+
+        <dl class="mt-6 divide-y divide-[#dfdfdf] border-t border-[#dfdfdf]">
+          <div
+            class="grid gap-4 py-6 md:grid-cols-[180px_1fr] md:gap-7 xl:py-[26px]"
+          >
+            <dt class="text-[17px] font-medium leading-snug text-ink xl:text-[18px]">
+              Everything we take off your plate:
+            </dt>
+            <dd>
+              <ul class="space-y-3 xl:space-y-[14px]">
+                {
+                  weTake.map((item) => (
+                    <li class="flex items-start gap-2.5 text-[16px] leading-snug text-ink xl:text-[18px]">
+                      <Icon name="check-olive" size={16} class="mt-[3px] shrink-0" />
+                      {item}
+                    </li>
+                  ))
+                }
+              </ul>
+            </dd>
+          </div>
+          <div
+            class="grid gap-4 pt-6 md:grid-cols-[180px_1fr] md:gap-7 xl:pt-[26px]"
+          >
+            <dt class="text-[17px] font-medium leading-snug text-ink xl:text-[18px]">
+              What you don't need:
+            </dt>
+            <dd>
+              <ul class="space-y-3">
+                {
+                  youDont.map((item) => (
+                    <li class="flex items-start gap-2.5 text-[16px] leading-snug text-body line-through decoration-body/70 xl:text-[18px]">
+                      <Icon name="x-muted" size={16} class="mt-[3px] shrink-0" />
+                      {item}
+                    </li>
+                  ))
+                }
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <div
+        class="mx-auto mt-3 flex max-w-[834px] flex-col gap-5 rounded-[24px] bg-white p-5 md:flex-row md:items-center md:justify-between xl:mt-5 xl:rounded-[40px] xl:py-[34px] xl:pl-7 xl:pr-[30px]"
+      >
+        <div class="flex gap-5">
+          <span
+            class="grid size-10 shrink-0 place-items-center rounded-[12px] border border-[#cde2a8] bg-lime-soft text-olive"
+          >
+            <Icon name="laptop" size={20} />
+          </span>
+          <div>
+            <h3 class="text-[17px] font-semibold text-ink xl:text-[20px]">
+              Website included with every plan
+            </h3>
+            <p class="mt-1.5 max-w-[370px] text-[14px] leading-normal text-ink/80 xl:text-[15px]">
+              If you don't have a website, we'll build you a fast,
+              mobile-friendly one that meets Google Ad Grants requirements and
+              turns visitors into supporters.
+            </p>
+          </div>
+        </div>
+        <a
+          href={QUALIFY_HREF}
+          class="btn btn-primary btn-lg w-full shrink-0 md:w-auto xl:px-6"
+        >
+          {QUALIFY_LABEL}
+          <Icon name="arrow-right" size={18} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

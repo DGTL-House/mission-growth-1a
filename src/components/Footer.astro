@@ -1,0 +1,57 @@
+---
+import { BOOK_HREF, CONTACT, SOCIALS } from "../consts";
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+---
+
+<footer id="contact" class="pb-28 pt-8 lg:pb-16 xl:pb-24 xl:pt-[130px]">
+  <div
+    class="container-page grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-end lg:gap-10 xl:px-28"
+  >
+    <div>
+      <Logo class="text-[32px] text-body" />
+      <p class="mt-6 max-w-[380px] text-[16px] leading-normal text-body xl:mt-[30px] xl:text-[18px]">
+        Helping nonprofits get discovered through Google Ad Grants.
+      </p>
+      <a
+        href={BOOK_HREF}
+        class="btn btn-primary mt-6 h-16 w-full flex-col gap-0 leading-tight sm:w-[306px] xl:h-[72px]"
+      >
+        <span class="text-[18px]">Book free consultation</span>
+        <span class="text-[12px] font-normal">No commitment · 30 min</span>
+      </a>
+    </div>
+
+    <ul class="flex gap-3 lg:pb-4" aria-label="Social media">
+      {
+        SOCIALS.map((s) => (
+          <li>
+            <a
+              href={s.href}
+              aria-label={s.label}
+              class="grid size-10 place-items-center rounded-full bg-sand text-body transition hover:bg-lime hover:text-olive"
+            >
+              <Icon name={s.icon} size={16} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <address
+      class="space-y-6 text-[16px] not-italic leading-tight text-body lg:justify-self-end xl:space-y-[30px] xl:text-[18px]"
+    >
+      <p>
+        E.<br />
+        <a href={`mailto:${CONTACT.email}`} class="hover:text-olive"
+          >{CONTACT.email}</a
+        >
+      </p>
+      <p>
+        M.<br />
+        <a href={CONTACT.phoneHref} class="hover:text-olive">{CONTACT.phone}</a>
+      </p>
+      <p>A.<br />{CONTACT.address}</p>
+    </address>
+  </div>
+</footer>
