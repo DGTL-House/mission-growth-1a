@@ -217,7 +217,6 @@ img {
     }
     .btn-primary:hover {
         background: #b7e46d;
-        box-shadow: 0 8px 24px -10px rgb(63 80 40 / 0.45);
     }
     .btn-primary:active {
         transform: translateY(1px);
